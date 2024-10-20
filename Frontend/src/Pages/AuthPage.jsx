@@ -1,21 +1,38 @@
 import React, { useState } from 'react'
 import Header from '../Components/Header'
 import { Box, Button, Image, Input, Stack } from '@chakra-ui/react';
+import useAuthStore from '../store/useAuthStore';
 
 
 const AuthPage = () => {
 
   const [isLogin, setIslogin] = useState(true);
 
-  const [authData,setAuthData] = useState({
-    
+  const { sendOtp, userId, isLoading } = useAuthStore();
+
+
+  const [authData, setAuthData] = useState({
+    name: "",
+    email: "",
+    otp: "",
+
+
   })
+
+  const handleSendOtp = () => {
+    if (!authData.email) {
+      return alert("Enter Email to contine")
+    }
+    sendOtp(authData.email);
+  }
+
 
   return (
 
-    <Box className='flex flex-col max-w-[1580px] h-full ' >
+    <Box className='grid-layout ' >
       <Header />
-      <Box className='flex min-h-screen items-center '>
+
+      <Box className='flex min-h-screen items-center main '>
 
 
 
@@ -29,7 +46,7 @@ const AuthPage = () => {
         </Box>
         <Box className='rightside w-[619px] '>
 
-          <Stack className=' rounded-[15px]   p-12 w-full h-[722px]   '>
+          <Stack className=' rounded-[15px]   p-12 w-full h-[722px] text-center  '>
             <Box>
               <h2>{!isLogin ? "Sign Up" : "Login"}</h2>
               <p>Lorem ipsum dolor sit amet.</p>
@@ -72,25 +89,24 @@ const AuthPage = () => {
               {
                 isLogin && <>
                   <Box className='relative'>
-                    <Input type='number' placeholder='Email OTP' className=' border-[2px] border-[#535353] ' height={'59px'} paddingLeft={12} />
-                    <Image src='/Person icon.png' className='absolute top-4 left-4 w-[16px] h-[18px]' />
+                    <Input type={userId ? 'number' : 'email'} placeholder={!userId ? 'Email Address' : 'Enter otp'}
+                      value={!userId ? authData.email : authData.otp}
+                      onChange={(e) => !userId ? setAuthData({ ...authData, email: e.target.value }) : setAuthData({ ...authData, otp: e.target.value })}
+                      className=' border-[2px] border-[#535353] ' height={'59px'} paddingLeft={12} />
+                    {!userId ? <Image src='/Person icon.png' className='absolute top-4 left-4 w-[16px] h-[18px]' /> : <Image src='/Vector.png' className='absolute top-4 left-4 w-[16px] h-[18px]' />
+                    }
                   </Box>
+
+
                   <Button
+
+                    onClick={handleSendOtp}
+                    isLoading={isLoading}
                     bg={'#0B66EF'}
                     color={'#FFF'}
                     _active={'#0B22EF'}
                     _hover={'teal'}
-                  >Verify</Button>
-                  <Box className='relative'>
-                    <Input type='number' placeholder='Mobile OTP' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12} />
-                    <Image src='/Vector.png' className='absolute top-4 left-4 w-[19.89px] h-[19.93px] ' />
-                  </Box>
-                  <Button
-                    bg={'#0B66EF'}
-                    color={'#FFF'}
-                    _active={'#0B22EF'}
-                    _hover={'teal'}
-                  >Verify</Button>
+                  >{!userId ? 'Send Otp' : 'Verify Otp'}</Button>
 
                   <p>Don't have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>SignUp</span></p>
                 </>
@@ -102,7 +118,7 @@ const AuthPage = () => {
                 _active={'#0B22EF'}
                 _hover={'teal'}
               >Proceed</Button>
-              <p>Already have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>Login</span></p></>}
+                <p>Already have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>Login</span></p></>}
             </Stack>
 
           </Stack>
