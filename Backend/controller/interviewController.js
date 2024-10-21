@@ -14,11 +14,12 @@ export const createInterview = async (req, res) => {
     });
 
     if (interview) {
-      const content = `Dear ${candidate[0]}, </br> 
-            Congratulations you are selected for an interview from cuvette.
-            Your interview is scheduled on ${endDate}.`;
+      const content = `Dear candidate,Congratulations you are selected for an interview from cuvette.Your interview is scheduled on ${endDate}.`;
 
-     await sendMailToUsers(candidate[0], content);
+      for(let i=0;i<candidate.length;i++){
+        await sendMailToUsers(candidate[i],content);
+      }        
+
     }
 
     res.status(201).json({ status: true, message: "Interview created" });

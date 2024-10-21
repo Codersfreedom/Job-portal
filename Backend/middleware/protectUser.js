@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
-export const protectUser = (req, res, next) => {
+export const protectUser = async (req, res, next) => {
   try {
+    
     const token = req.cookies["cuvette"];
     if (!token) {
       return res
@@ -18,7 +19,7 @@ export const protectUser = (req, res, next) => {
       });
     }
 
-    const user = User.findById(decoded.userId).select("-password");
+    const user = await User.findById(decoded.userId).select("-password");
 
     if (!user) {
       return res

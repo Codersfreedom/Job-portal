@@ -14,7 +14,7 @@ const userSchema = mongoose.Schema({
     type:Boolean,
     default:false
   },
-  company: {
+  companyName: {
     type: String,
     required: true,
   },

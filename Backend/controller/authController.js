@@ -6,7 +6,8 @@ import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
 
 export const signup = async (req, res) => {
   try {
-    const { name, phone, company, companyEmail, employeeSize } = req.body;
+   
+    const { name, phone, companyName, companyEmail, employeeSize } = req.body;
 
     const isExisting = await User.findOne({ companyEmail });
 
@@ -19,7 +20,7 @@ export const signup = async (req, res) => {
     const newUser = await User.create({
       name,
       phone,
-      company,
+      companyName,
       companyEmail,
       employeeSize,
     });
@@ -38,14 +39,14 @@ export const signup = async (req, res) => {
 export const sendOTP = async (req, res) => {
   try {
     const { email } = req.body;
-    console.log(email)
+
     if (!email) {
       return res
         .status(500)
         .json({ status: false, message: "Enter email to continue" });
     }
     const isExistingUser = await User.findOne({ companyEmail: email });
-console.log(isExistingUser)
+
     if (!isExistingUser) {
       return res
         .status(400)
@@ -53,7 +54,7 @@ console.log(isExistingUser)
     }
 
     const mailOtp = generateOtp();
-    // await sendMailToUsers(email, mailOtp);
+    await sendMailToUsers(email, mailOtp);
 
     const isOtpGenerated = await Otp.findOne({ user: isExistingUser._id });
     if (!isOtpGenerated) {
@@ -70,21 +71,23 @@ console.log(isExistingUser)
       );
     }
 
-    res.status(200).json({ status: true,message:"Otp send", userId: isExistingUser._id });
+    res
+      .status(200)
+      .json({ status: true, message: "Otp send", userId: isExistingUser._id });
   } catch (error) {
     console.log(error.message);
-    res.status(500).json({ status: false,message:"Internal server error" });
+    res.status(500).json({ status: false, message: "Internal server error" });
   }
 };
 
 export const verifyOtp = async (req, res) => {
   try {
     const { emailOtp, userId } = req.body;
-
+    console.log(emailOtp);
     if (!emailOtp) {
       return res
         .status(500)
-        .json({ status: false, message: "Enter both otps to continue" });
+        .json({ status: false, message: "Enter  otp to continue" });
     }
 
     const savedOtp = await Otp.findOne({ user: userId });
@@ -111,6 +114,7 @@ export const verifyOtp = async (req, res) => {
         emailOtp: null,
       }
     );
+    generateTokenAndSetCookie(res, userId);
     res.status(200).json({ status: true, user });
   } catch (error) {
     console.log(error.message);
@@ -118,31 +122,10 @@ export const verifyOtp = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const checkAuth = async (req, res) => {
   try {
-    const { userId } = req.body;
-
-    const isExistingUser = await User.findOne({
-      _id: userId,
-      isVerified: true,
-    });
-
-    if (!isExistingUser)
-      return res
-        .status(404)
-        .json({ status: false, message: "User is not verified" });
-
-    const user = await User.findOneAndUpdate(
-      { _id: userId },
-      {
-        isVerified: false,
-      },
-      { new: true }
-    );
-
-    generateTokenAndSetCookie(res, userId);
-
-    res.status(200).json({ status: true, message: "Login success", user });
+   
+    res.status(200).json({ status: true, user: req.user });
   } catch (error) {
     console.log(error.message);
     res.status(500).json({ status: false, message: "Internal server error" });

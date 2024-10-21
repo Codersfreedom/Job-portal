@@ -1,29 +1,47 @@
 import React, { useState } from 'react'
 import Header from '../Components/Header'
-import { Box, Button, Image, Input, Stack } from '@chakra-ui/react';
+import { Box, Button, HStack, Image, Input, PinInput, PinInputField, Stack } from '@chakra-ui/react';
 import useAuthStore from '../store/useAuthStore';
+import toast from 'react-hot-toast';
 
 
 const AuthPage = () => {
 
   const [isLogin, setIslogin] = useState(true);
 
-  const { sendOtp, userId, isLoading } = useAuthStore();
+  const {signup, sendOtp, verifyOtp, userId, isLoading } = useAuthStore();
+
 
 
   const [authData, setAuthData] = useState({
     name: "",
-    email: "",
+    phone: "",
+    companyEmail: "",
+    companyName: "",
+    employeeSize: "",
     otp: "",
 
 
   })
 
-  const handleSendOtp = () => {
-    if (!authData.email) {
-      return alert("Enter Email to contine")
+  const handleSignup = () => {
+    if (!authData.name || !authData.phone || !authData.companyEmail || !authData.companyName || !authData.employeeSize) {
+      return toast.error("Please fill all fields")
     }
-    sendOtp(authData.email);
+    signup(authData);
+  }
+
+  const handleSendOtp = () => {
+    if (!authData.companyEmail) {
+      return toast.error("Please enter email to send otp")
+    }
+    sendOtp(authData.companyEmail);
+  }
+
+  const handleVerifyOtp = () => {
+    if (!authData.otp) return toast.error("Please enter otp to verify")
+
+    verifyOtp(authData.otp);
   }
 
 
@@ -59,25 +77,35 @@ const AuthPage = () => {
 
                 <>
                   <Box className='relative'>
-                    <Input type='text' placeholder='Name' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12} />
+                    <Input type='text' placeholder='Name' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12}
+                      onChange={(e) => setAuthData({ ...authData, name: e.target.value })}
+                    />
                     <Image src='/Person icon.png' className='absolute top-4 left-4 w-[16px] h-[18px] ' />
                   </Box>
                   <Box className='relative'>
-                    <Input type='tel' placeholder='Phone no.' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12} />
+                    <Input  type='tel' placeholder='Phone no.' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12}
+                      onChange={(e) => setAuthData({ ...authData, phone: e.target.value })}
+                    />
                     <Image src='/Vector.png' className='absolute top-4 left-4 w-[19.89px] h-[19.93px] ' />
                   </Box>
                   <Box className='relative'>
-                    <Input type='text' placeholder='Company Name' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12} />
+                    <Input type='text' placeholder='Company Name' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12}
+                      onChange={(e) => setAuthData({ ...authData, companyName: e.target.value })}
+                    />
                     <Image src='/Person icon.png' className='absolute top-4 left-4 w-[16px] h-[18px] ' />
                   </Box>
 
 
                   <Box className='relative'>
-                    <Input type='email' placeholder='Company Email' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12} />
+                    <Input type='email' placeholder='Company Email' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12}
+                      onChange={(e) => setAuthData({ ...authData, companyEmail: e.target.value })}
+                    />
                     <Image src='/mail.png' className='absolute top-4 left-4 w-[20px] h-[18px] ' />
                   </Box>
                   <Box className='relative'>
-                    <Input type='text' placeholder='Employee Size' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12} />
+                    <Input type='text' placeholder='Employee Size' className=' border-[2px] border-[#535353]  ' height={'59px'} paddingLeft={12}
+                      onChange={(e) => setAuthData({ ...authData, employeeSize: e.target.value })}
+                    />
                     <Image src='/groups.png' className='absolute top-4 left-4 w-[32px] h-[18px] ' />
                   </Box>
 
@@ -87,36 +115,63 @@ const AuthPage = () => {
                 </>}
 
               {
-                isLogin && <>
+                isLogin && !userId && <>
                   <Box className='relative'>
-                    <Input type={userId ? 'number' : 'email'} placeholder={!userId ? 'Email Address' : 'Enter otp'}
-                      value={!userId ? authData.email : authData.otp}
-                      onChange={(e) => !userId ? setAuthData({ ...authData, email: e.target.value }) : setAuthData({ ...authData, otp: e.target.value })}
+                    <Input type='email' placeholder='Email address'
+                      value={authData.email}
+                      onChange={(e) => setAuthData({ ...authData, companyEmail: e.target.value })}
                       className=' border-[2px] border-[#535353] ' height={'59px'} paddingLeft={12} />
-                    {!userId ? <Image src='/Person icon.png' className='absolute top-4 left-4 w-[16px] h-[18px]' /> : <Image src='/Vector.png' className='absolute top-4 left-4 w-[16px] h-[18px]' />
-                    }
-                  </Box>
+                    <Image src='/Person icon.png' className='absolute top-4 left-4 w-[16px] h-[18px]' />
 
+
+
+                  </Box>
 
                   <Button
 
                     onClick={handleSendOtp}
                     isLoading={isLoading}
-                    bg={'#0B66EF'}
-                    color={'#FFF'}
-                    _active={'#0B22EF'}
-                    _hover={'teal'}
-                  >{!userId ? 'Send Otp' : 'Verify Otp'}</Button>
+                    colorScheme='blue'
+                  >Send Otp </Button>
 
                   <p>Don't have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>SignUp</span></p>
                 </>
               }
 
+              {isLogin && userId && <>
+                <Box className='flex justify-center pt-4'>
+
+                  <HStack >
+                    <PinInput otp>
+                      <PinInputField onChange={(e) => setAuthData({ ...authData, otp: authData.otp + e.target.value })} />
+                      <PinInputField onChange={(e) => setAuthData({ ...authData, otp: authData.otp + e.target.value })} />
+                      <PinInputField onChange={(e) => setAuthData({ ...authData, otp: authData.otp + e.target.value })} />
+                      <PinInputField onChange={(e) => setAuthData({ ...authData, otp: authData.otp + e.target.value })} />
+                      <PinInputField onChange={(e) => setAuthData({ ...authData, otp: authData.otp + e.target.value })} />
+                    </PinInput>
+                  </HStack>
+
+
+                </Box>
+
+                <Button
+
+                  onClick={handleVerifyOtp}
+                  isLoading={isLoading}
+                  colorScheme='blue'
+                >Verify Otp </Button>
+
+                <p>Don't have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>SignUp</span></p>
+              </>
+
+
+              }
+
+
+
               {!isLogin && <> <Button
-                bg={'#0B66EF'}
-                color={'#FFF'}
-                _active={'#0B22EF'}
-                _hover={'teal'}
+                colorScheme='blue'
+                onClick={handleSignup}
               >Proceed</Button>
                 <p>Already have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>Login</span></p></>}
             </Stack>

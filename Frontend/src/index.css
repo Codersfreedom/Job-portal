@@ -29,24 +29,50 @@ body {
 
 .grid-layout {
   display: grid;
-  grid-template-columns: repeat(1fr, 4);
-  grid-row: auto;
+  grid-template-columns: repeat(1fr, 2);
+  grid-row: auto 1fr auto;
   grid-template-areas:
     "header header header header"
     "leftside main main main"
     "leftside main main main "
-    "leftside main main main";
+    "leftside footer footer footer";
 }
 
-.header{
+header{
   grid-area: header;
+  position: sticky;
+  top: 0;
 
 }
 
-.leftside{
+aside{
+  height: calc(100vh - 72.8px);
   grid-area: leftside;
+  position: sticky;
+  align-self: start;
+  top: 72.8px;
+  z-index: 100;
 }
 
 .main{
   grid-area: main;
+}
+
+footer{
+  grid-area: footer;
+}
+
+@media (max-width:700px){
+  .grid-layout{
+    grid-template-columns: 1fr;
+    
+  }
+ aside{
+  height: calc(100vh - 80.8px);
+  top:80.8px;
+  position: fixed;
+  z-index: 9999;
+  background-color: #fff;
+ }
+
 }

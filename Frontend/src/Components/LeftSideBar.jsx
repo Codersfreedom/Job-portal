@@ -1,17 +1,19 @@
-import { Box, Image, Stack } from "@chakra-ui/react"
+import { Box, Image, Text } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 
 
-const LeftSideBar = () => {
+const LeftSideBar = ({isOpen}) => {
+    
     return (
-        <Stack className=" leftside h-screen w-20 border-r justify-start items-center py-4" >
+        <aside className={ `leftside ${isOpen ? "flex":"hidden "} flex-col  lg:block w-40 lg:w-16 border-r justify-start items-center py-4`} >
             <Box>
-                <Link to={'/'}>
-                    <Image src="/Home.png" className="w-[34.04px] h-[35.83px]" />
+                <Link to={'/'} className="flex flex-col items-center gap-1   ">
+                    <Image src="/Home.png" className="w-7" />
+                    <Text className="lg:hidden ">Home</Text>
 
                 </Link>
             </Box>
-        </Stack>
+        </aside>
     )
 }
 

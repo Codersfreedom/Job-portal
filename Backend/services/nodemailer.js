@@ -19,7 +19,7 @@ async function sendMailToUsers(email, content) {
     const info = await transporter.sendMail({
       from: process.env.MAIL_USERNAME, // sender address
       to: email, // list of receivers
-      subject: "Email Otp verification", // Subject line
+      subject: typeof(content) =="number" ? "Email Otp verification":"Interview call", // Subject line
       text:
         typeof(content) == "number"
           ? `Hello there welcome to cuvette, here is your 5 digit OTP: ${otp}`

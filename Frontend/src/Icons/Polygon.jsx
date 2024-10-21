@@ -1,9 +1,10 @@
 import { Image } from "@chakra-ui/react"
 
 
-const Polygon = () => {
+const Polygon = ({value}) => {
+
   return (
-   <Image src="/Polygon 1.png" className="w-[19.9px] h-[19.9px]" />
+   <Image src="/Polygon 1.png" className={`w-4 h-4 ease-in-out duration-200    rotate-${value}`} />
   )
 }
 

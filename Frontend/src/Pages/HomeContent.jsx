@@ -7,7 +7,7 @@ const HomeContent = () => {
   return (
     <Box className="main h-screen w-screen flex p-10 justify-start items-start">
       <Button
-      onClick={()=>{navigate('/post-job')}}
+      onClick={()=>{navigate('/create-interview')}}
       colorScheme="blue"
       >Create Interview</Button>
     </Box>
