@@ -22,7 +22,7 @@ const Header = ({ isHome, isOpen: isSideBarOpen, setOpen }) => {
           <Image src='/logo.png' className='w-[121px] h-[30px] max-sm:w-20 max-sm:h-7 ' />
         </Link>
       </Box>
-      <Box className=' items-center flex gap-5 pr-5  lg:pr-20' >
+      <Box className=' items-center flex gap-5 pr-20  lg:pr-20' >
         <p className='font-medium text-xl hidden md:block text-[#576474] '>
           Contact
         </p>

@@ -1,5 +1,5 @@
-import Interview from "../models/Inverview.js";
-import sendMailToUsers from "../services/nodemailer.js";
+import Interview from "../../models/Inverview.js";
+import sendMailToUsers from "../../services/nodemailer.js";
 
 export const createInterview = async (req, res) => {
   try {

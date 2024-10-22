@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import User from "../models/User.js";
+import Company from "../models/Company.js";
 
-export const protectUser = async (req, res, next) => {
+export const protectCompany = async (req, res, next) => {
   try {
     
     const token = req.cookies["cuvette"];
@@ -19,7 +19,7 @@ export const protectUser = async (req, res, next) => {
       });
     }
 
-    const user = await User.findById(decoded.userId).select("-password");
+    const user = await Company.findById(decoded.userId).select("-password");
 
     if (!user) {
       return res

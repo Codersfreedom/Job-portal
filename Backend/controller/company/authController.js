@@ -1,15 +1,15 @@
-import Otp from "../models/Otp.js";
-import User from "../models/User.js";
-import generateOtp from "../services/generateOtp.js";
-import sendMailToUsers from "../services/nodemailer.js";
-import generateTokenAndSetCookie from "../utils/generateTokenAndSetCookie.js";
+import Otp from "../../models/Otp.js";
+import Company from "../../models/Company.js";
+import generateOtp from "../../services/generateOtp.js";
+import sendMailToUsers from "../../services/nodemailer.js";
+import generateTokenAndSetCookie from "../../utils/generateTokenAndSetCookie.js";
 
 export const signup = async (req, res) => {
   try {
    
     const { name, phone, companyName, companyEmail, employeeSize } = req.body;
 
-    const isExisting = await User.findOne({ companyEmail });
+    const isExisting = await Company.findOne({ companyEmail });
 
     if (isExisting) {
       return res
@@ -17,7 +17,7 @@ export const signup = async (req, res) => {
         .json({ status: false, message: "Email is already exists" });
     }
 
-    const newUser = await User.create({
+    const newUser = await Company.create({
       name,
       phone,
       companyName,
@@ -45,7 +45,7 @@ export const sendOTP = async (req, res) => {
         .status(500)
         .json({ status: false, message: "Enter email to continue" });
     }
-    const isExistingUser = await User.findOne({ companyEmail: email });
+    const isExistingUser = await Company.findOne({ companyEmail: email });
 
     if (!isExistingUser) {
       return res
@@ -83,7 +83,7 @@ export const sendOTP = async (req, res) => {
 export const verifyOtp = async (req, res) => {
   try {
     const { emailOtp, userId } = req.body;
-    console.log(emailOtp);
+    
     if (!emailOtp) {
       return res
         .status(500)
@@ -101,7 +101,7 @@ export const verifyOtp = async (req, res) => {
     if (emailOtp != savedOtp.emailOtp) {
       return res.status(400).json({ status: false, message: "Invalid otp" });
     }
-    const user = await User.findOneAndUpdate(
+    const user = await Company.findOneAndUpdate(
       { _id: userId },
       {
         isVerified: true,
