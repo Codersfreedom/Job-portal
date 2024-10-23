@@ -17,6 +17,6 @@ router.post("/auth/logout", logout);
 router.post("/auth/sendOtp", sendOTP);
 router.post("/auth/verifyOtp", verifyOtp);
 
-router.post("/interview/create",protectCompany, createInterview)
+router.post("/interview/create",protectCompany, createInterview);
 
 export default router;
