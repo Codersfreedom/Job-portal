@@ -90,7 +90,7 @@ const useCompanyauthStore = create((set, get) => ({
         method: "GET",
       });
       const data = await response.json();
-
+      console.log(data.user)
       if (data.status == true) {
         set({ isLoading: false, company: data.user });
       } else {

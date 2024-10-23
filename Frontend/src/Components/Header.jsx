@@ -1,13 +1,13 @@
-import { Avatar, Box, Button, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/react'
+import { Avatar, Box, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import Polygon from '../Icons/Polygon'
-import useAuthStore from '../store/useCompanyauthStore'
 import { MenuIcon } from 'lucide-react'
+import useCompanyauthStore from '../store/useCompanyauthStore'
+import useStudentAuthStore from '../store/useStudentAuthStore'
 
 
-
-const Header = ({  isOpen: isSideBarOpen, setOpen }) => {
-  const { company, logout } = useAuthStore();
+const Header = ({ isOpen: isSideBarOpen, setOpen }) => {
+  const { company, logout } = useCompanyauthStore();
+  const { student, studentLogout } = useStudentAuthStore()
 
   const handleToggleSidebar = () => {
     setOpen(!isSideBarOpen);
@@ -26,24 +26,13 @@ const Header = ({  isOpen: isSideBarOpen, setOpen }) => {
         <p className='font-medium text-xl hidden md:block text-[#576474] '>
           Contact
         </p>
-        {company && <Menu  >
-          {({ isOpen }) => (
-            <>
-
-              <div className='block lg:hidden cursor-pointer'>
+        {(company || student) && (<Menu  >
+         
+            
+              <div className=' cursor-pointer'>
                 <MenuButton as={Avatar} size={'sm'} />
 
               </div>
-
-              {/* <div className='hidden lg:block'>
-                <MenuButton as={Button} colorScheme='blue' variant={'outline'} leftIcon={<Avatar name={company.name} size={'xs'} />} rightIcon={<Polygon value={isOpen ? 0 : 180} />}>
-                  {company.name}
-                </MenuButton>
-              </div> */}
-
-
-
-
 
 
               <MenuList>
@@ -52,11 +41,11 @@ const Header = ({  isOpen: isSideBarOpen, setOpen }) => {
                 <MenuItem>Create Interview</MenuItem>
                 <MenuItem>Find jobs</MenuItem>
                 <MenuDivider />
-                <MenuItem onClick={logout} > Logout</MenuItem>
+                <MenuItem onClick={(e)=>{company?logout():studentLogout()}}  > Logout</MenuItem>
               </MenuList >
-            </>
-          )}
-        </Menu>}
+           
+         
+        </Menu>)}
       </Box>
 
 

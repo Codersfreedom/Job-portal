@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import Company from "../models/Company.js";
+import Student from "../models/Student.js";
 
-export const protectCompany = async (req, res, next) => {
-  console.log(req.cookies)
+export const protectStudent = async (req, res, next) => {
+ 
   try {
     
     const token = req.cookies["cuvette"];
@@ -20,7 +20,7 @@ export const protectCompany = async (req, res, next) => {
       });
     }
 
-    const user = await Company.findById(decoded.userId);
+    const user = await Student.findById(decoded.userId).select("-password");
 
     if (!user) {
       return res

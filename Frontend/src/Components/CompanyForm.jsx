@@ -3,7 +3,7 @@ import  { useState } from 'react'
 import useCompanyauthStore from '../store/useCompanyauthStore';
 import toast from 'react-hot-toast';
 
-const CompanyForm = ({loginType}) => {
+const CompanyForm = () => {
 
     const [isLogin, setIslogin] = useState(true);
     const { signup, sendOtp, verifyOtp, companyId, isLoading } = useCompanyauthStore();

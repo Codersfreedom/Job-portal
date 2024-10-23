@@ -5,7 +5,7 @@ import Footer from "../Components/Footer"
 import { useState } from "react"
 
 
-const HomePage = () => {
+const CompanyHomePage = () => {
     const [isOpen,setOpen] = useState(false);
 
     return (
@@ -18,4 +18,4 @@ const HomePage = () => {
     )
 }
 
-export default HomePage
+export default CompanyHomePage

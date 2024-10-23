@@ -2,32 +2,40 @@ import { Box, Button, FormControl, FormLabel, Image, Input, Stack, Switch } from
 import { Lock, Mail, Phone, User } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
+import useStudentAuthStore from '../store/useStudentAuthStore';
 
 const StudentForm = () => {
     const [isLogin, setIslogin] = useState(true);
 
+
     const [authData, setAuthData] = useState({
         name: "",
-        phone: "",
+        contact: {
+            phone: "",
+            isWhatsapp: false
+        },
         email: "",
         password: "",
-        isWhatsapp: false,
+
 
 
 
     })
-    const userId = null;
-    const isLoading = false;
+    const { student, signup, login, isLoading } = useStudentAuthStore();
+
     const handleSignup = () => {
-        if (!authData.name || !authData.phone || !authData.companyEmail || !authData.companyName || !authData.employeeSize) {
+        if (!authData.name || !authData.contact || !authData.email || !authData.password) {
             return toast.error("Please fill all fields")
         }
         signup(authData);
     }
     const handleLogin = () => {
-
+        if (!authData.email || !authData.password) {
+            return toast.error("Please enter all fields");
+        }
+        login(authData);
     }
-    console.log(authData)
+    
     return (
         <Stack className=' rounded-[15px]   p-12 w-full  text-center  '>
             <Box className='pb-5'>
@@ -66,10 +74,10 @@ const StudentForm = () => {
                                 <FormLabel htmlFor='email-alerts' mb='0'>
                                     Whatsapp
                                 </FormLabel>
-                                <Switch id='email-alerts' value={authData.isWhatsapp} onChange={(e) => setAuthData({ ...authData, isWhatsapp: !authData.isWhatsapp })} />
+                                <Switch id='email-alerts' value={authData.isWhatsapp} onChange={(e) => setAuthData({ ...authData, contact: { ...authData.contact, isWhatsapp: !authData.isWhatsapp } })} />
                             </FormControl>
                             <Input type='tel' placeholder='Phone no' className=' border-[2px] border-[#535353]  ' paddingLeft={8}
-                                onChange={(e) => setAuthData({ ...authData, phone: e.target.value })}
+                                onChange={(e) => setAuthData({ ...authData, contact: { ...authData.contact, phone: e.target.value } })}
                             />
                             <Phone src='/mail.png' className='absolute top-10 left-2  w-5 ' />
                         </Box>
@@ -81,7 +89,7 @@ const StudentForm = () => {
                     </>}
 
                 {
-                    isLogin && !userId && <>
+                    isLogin && !student && <>
                         <Box className='relative'>
                             <Input type='email' placeholder='Email address'
                                 value={authData.email}
@@ -115,6 +123,7 @@ const StudentForm = () => {
                 }
 
                 {!isLogin && <> <Button
+                    isLoading={isLoading}
                     colorScheme='blue'
                     onClick={handleSignup}
                 >Proceed</Button>

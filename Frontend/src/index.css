@@ -41,11 +41,11 @@ header{
 }
 
 aside{
-  height: calc(100vh - 72.8px);
+  height: calc(100vh - 64.8px);
   grid-area: leftside;
   position: sticky;
   align-self: start;
-  top: 72.8px;
+  top: 64.8px;
   z-index: 100;
 }
 
