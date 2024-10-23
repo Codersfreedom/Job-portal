@@ -1,14 +1,14 @@
 import toast from "react-hot-toast";
 import { create } from "zustand";
 
-const useAuthStore = create((set, get) => ({
-  user: null,
-  userId: null,
+const useCompanyauthStore = create((set, get) => ({
+  company: null,
+  companyId: null,
   isLoading: false,
 
   signup: async (authData) => {
     try {
-      const response = await fetch("/api/auth/signup", {
+      const response = await fetch("/api/company/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -17,21 +17,24 @@ const useAuthStore = create((set, get) => ({
       });
       const data = await response.json();
       if (data.status == true) {
-        set({ isLoading: false, user: data.user });
+        set({ isLoading: false, company: data.user });
         toast.success("Account created");
       } else {
         throw new Error(data.message);
       }
     } catch (error) {
       console.log(error.message);
+      set({ company: null });
       toast.error(error.message);
+    } finally {
+      set({ isLoading: false });
     }
   },
 
   sendOtp: async (email) => {
     set({ isLoading: true });
     try {
-      const response = await fetch("/api/auth/sendOtp", {
+      const response = await fetch("/api/company/auth/sendOtp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -39,31 +42,36 @@ const useAuthStore = create((set, get) => ({
         body: JSON.stringify({ email }),
       });
       const data = await response.json();
-      set({ userId: data.userId, isLoading: false });
-      toast.success(data.message);
+      if (data.status == true) {
+        set({ companyId: data.userId, isLoading: false });
+        toast.success(data.message);
+      } else {
+        throw new Error(data.message);
+      }
     } catch (error) {
-      console.log(error.message);
+      console.log(error);
+      toast.error(error.message);
       set({ isLoading: false });
     }
   },
   verifyOtp: async (otp) => {
     set({ isLoading: true });
-    const userId = get().userId;
-    if (!userId) {
+    const companyId = get().companyId;
+    if (!companyId) {
       return toast.error("No user found!");
     }
     try {
-      const response = await fetch("/api/auth/verifyOtp", {
+      const response = await fetch("/api/company/auth/verifyOtp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ emailOtp: otp, userId }),
+        body: JSON.stringify({ emailOtp: otp, userId:companyId }),
       });
 
       const data = await response.json();
       if (data.status == true) {
-        set({ isLoading: false, user: data.user });
+        set({ isLoading: false, company: data.user });
         toast.success("Login success");
       } else {
         throw new Error(data.message);
@@ -75,32 +83,33 @@ const useAuthStore = create((set, get) => ({
     }
   },
 
-  checkAuth: async () => {
+  checkCompanyauth: async () => {
     set({ isLoading: true });
     try {
-      const response = await fetch("/api/auth/checkAuth", {
+      const response = await fetch("/api/company/auth/checkAuth", {
         method: "GET",
       });
       const data = await response.json();
+
       if (data.status == true) {
-        set({ isLoading: false, user: data.user });
-      }else{
-        throw new Error(data.message)
+        set({ isLoading: false, company: data.user });
+      } else {
+        throw new Error(data.message);
       }
     } catch (error) {
       console.log(error.message);
-      set({ isLoading: false,user:null });
+      set({ isLoading: false, company: null });
     }
   },
   logout: async () => {
     set({ isLoading: true });
     try {
-      const response = await fetch("/api/auth/logout", {
+      const response = await fetch("/api/company/auth/logout", {
         method: "POST",
       });
       const data = await response.json();
       if (data.status == true) {
-        set({ isLoading: false, user: null });
+        set({ isLoading: false, company: null });
         toast.success("Logout success");
       } else {
         throw new Error(data.message);
@@ -113,4 +122,4 @@ const useAuthStore = create((set, get) => ({
   },
 }));
 
-export default useAuthStore;
+export default useCompanyauthStore;

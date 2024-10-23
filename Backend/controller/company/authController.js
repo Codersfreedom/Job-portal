@@ -7,7 +7,7 @@ import generateTokenAndSetCookie from "../../utils/generateTokenAndSetCookie.js"
 export const signup = async (req, res) => {
   try {
    
-    const { name, phone, companyName, companyEmail, employeeSize } = req.body;
+    const { name,logo,overview,location, phone, companyName, companyEmail, employeeSize,links,industryType,companyType } = req.body;
 
     const isExisting = await Company.findOne({ companyEmail });
 
@@ -19,10 +19,15 @@ export const signup = async (req, res) => {
 
     const newUser = await Company.create({
       name,
+      overview,
+      location,
       phone,
       companyName,
       companyEmail,
       employeeSize,
+      links,
+      industryType,
+      companyType
     });
 
     generateTokenAndSetCookie(res, newUser._id);
@@ -54,7 +59,7 @@ export const sendOTP = async (req, res) => {
     }
 
     const mailOtp = generateOtp();
-    await sendMailToUsers(email, mailOtp);
+    // await sendMailToUsers(email, mailOtp);
 
     const isOtpGenerated = await Otp.findOne({ user: isExistingUser._id });
     if (!isOtpGenerated) {

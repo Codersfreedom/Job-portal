@@ -15,7 +15,7 @@ const companySchema = mongoose.Schema(
     },
     location: {
       type: String,
-      required:true
+      required: true,
     },
     phone: {
       type: Number,
@@ -45,6 +45,12 @@ const companySchema = mongoose.Schema(
       linkedIn: {
         type: String,
       },
+    },
+    industryType: {
+      type: String,
+    },
+    companyType: {
+      type: String,
     },
   },
   { timestamps: true }
