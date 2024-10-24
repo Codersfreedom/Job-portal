@@ -15,11 +15,11 @@ const Header = ({ isOpen: isSideBarOpen, setOpen }) => {
 
 
   return (
-    <header className='border-b shadow-md z-10 bg-white/10 flex  justify-between items-center navbar w-screen   min-h-16 px-7  py-4'  >
+    <header className='border-b shadow-md z-10  flex  justify-between items-center navbar w-screen   min-h-16 px-7  py-4'  >
       <Box className='flex items-center gap-2'>
         <MenuIcon size={'30px'} className='cursor-pointer block md:hidden' onClick={handleToggleSidebar} />
         <Link to={'/'}>
-          <Image src='/logo.png' className='w-[121px] h-[30px] max-sm:w-20 max-sm:h-7 ' />
+          <Image src='/logo.png' className='w-[121px] h-[30px] max-sm:w-20 max-sm:h-7 mix-blend-screen' />
         </Link>
       </Box>
       <Box className=' items-center flex gap-5  max-w-md  ' >

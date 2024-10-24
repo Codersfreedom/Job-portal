@@ -35,7 +35,7 @@ function App() {
         
         <Route path='/create-interview' element={company ? <CreateInterView /> : <Navigate to={'/auth'} />} />
       </Routes>
-      <Toaster position='bottom-left' />
+      <Toaster />
     </div>
   )
 }

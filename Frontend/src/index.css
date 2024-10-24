@@ -46,7 +46,7 @@ aside{
   position: sticky;
   align-self: start;
   top: 64.8px;
-  z-index: 100;
+  z-index: 20;
 }
 
 .main{
@@ -55,18 +55,18 @@ aside{
 
 footer{
   grid-area: footer;
+  align-self:self-end ;
+  justify-self: end;
 }
 
 @media (max-width:700px){
   .grid-layout{
     grid-template-columns: 1fr;
-    
   }
  aside{
-  height: calc(100vh - 80.8px);
-  top:80.8px;
+  height: calc(100vh - 64.8px);
+  top:64.8px;
   position: fixed;
-  z-index: 9999;
   background-color: #fff;
  }
 

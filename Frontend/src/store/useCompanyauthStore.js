@@ -4,6 +4,7 @@ import { create } from "zustand";
 const useCompanyauthStore = create((set, get) => ({
   company: null,
   companyId: null,
+  companyEmail:null,
   isLoading: false,
 
   signup: async (authData) => {
@@ -43,7 +44,7 @@ const useCompanyauthStore = create((set, get) => ({
       });
       const data = await response.json();
       if (data.status == true) {
-        set({ companyId: data.userId, isLoading: false });
+        set({ companyId: data.userId, isLoading: false,companyEmail:email });
         toast.success(data.message);
       } else {
         throw new Error(data.message);
@@ -51,7 +52,7 @@ const useCompanyauthStore = create((set, get) => ({
     } catch (error) {
       console.log(error);
       toast.error(error.message);
-      set({ isLoading: false });
+      set({ isLoading: false,companyEmail:null });
     }
   },
   verifyOtp: async (otp) => {
@@ -71,14 +72,17 @@ const useCompanyauthStore = create((set, get) => ({
 
       const data = await response.json();
       if (data.status == true) {
-        set({ isLoading: false, company: data.user });
+        set({ isLoading: false, company: data.user,companyEmail:null });
         toast.success("Login success");
       } else {
+        
         throw new Error(data.message);
       }
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
+    }finally{
+      
       set({ isLoading: false });
     }
   },
@@ -109,7 +113,7 @@ const useCompanyauthStore = create((set, get) => ({
       });
       const data = await response.json();
       if (data.status == true) {
-        set({ isLoading: false, company: null });
+        set({ isLoading: false, company: null,companyId:null });
         toast.success("Logout success");
       } else {
         throw new Error(data.message);
