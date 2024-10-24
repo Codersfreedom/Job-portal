@@ -1,23 +1,19 @@
 import { Avatar, Box, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import { MenuIcon } from 'lucide-react'
 import useCompanyauthStore from '../store/useCompanyauthStore'
 import useStudentAuthStore from '../store/useStudentAuthStore'
 
 
-const Header = ({ isOpen: isSideBarOpen, setOpen }) => {
+const Header = () => {
   const { company, logout } = useCompanyauthStore();
   const { student, studentLogout } = useStudentAuthStore()
 
-  const handleToggleSidebar = () => {
-    setOpen(!isSideBarOpen);
-  }
+
 
 
   return (
     <header className='border-b shadow-md z-10  flex  justify-between items-center navbar w-screen   min-h-16 px-7  py-4'  >
       <Box className='flex items-center gap-2'>
-        <MenuIcon size={'30px'} className='cursor-pointer block md:hidden' onClick={handleToggleSidebar} />
         <Link to={'/'}>
           <Image src='/logo.png' className='w-[121px] h-[30px] max-sm:w-20 max-sm:h-7 mix-blend-screen' />
         </Link>

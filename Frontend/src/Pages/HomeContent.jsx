@@ -10,12 +10,12 @@ const HomeContent = () => {
   const navigate = useNavigate();
 
   return (
-    <Box className="main min-h-screen max-w-screen-md flex md:p-10 justify-center items-center">
+    <Box className="main min-h-screen max-w-screen flex md:p-10 justify-start items-center">
       {company && <Button
         onClick={() => { navigate('/create-interview') }}
         colorScheme="blue"
       >Create Interview</Button>}
-      <Stack className="w-full">
+      <Stack className="max-w-screen-md">
         <Job />
         <Job />
         <Job />

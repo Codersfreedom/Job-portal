@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import Company from "../models/Company.js";
 
 export const protectCompany = async (req, res, next) => {
-  console.log(req.cookies)
+
   try {
     
     const token = req.cookies["cuvette"];

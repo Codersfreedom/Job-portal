@@ -20,8 +20,6 @@ body {
   overflow-x: hidden;
 }
 
-
-
 .grid-layout {
   display: grid;
   grid-template-columns: repeat(1fr, 2);
@@ -33,15 +31,13 @@ body {
     "leftside footer footer footer";
 }
 
-header{
+header {
   grid-area: header;
   position: sticky;
   top: 0;
-
 }
 
-aside{
-  height: calc(100vh - 64.8px);
+aside {
   grid-area: leftside;
   position: sticky;
   align-self: start;
@@ -49,25 +45,32 @@ aside{
   z-index: 20;
 }
 
-.main{
+.main {
   grid-area: main;
 }
 
-footer{
+footer {
   grid-area: footer;
-  align-self:self-end ;
+  align-self: self-end;
   justify-self: end;
 }
 
-@media (max-width:700px){
-  .grid-layout{
+@media (max-width: 700px) {
+  .grid-layout {
     grid-template-columns: 1fr;
+    grid-row: auto 1fr 1fr auto auto;
+    grid-template-areas:
+      "header header header header "
+      "main main main main"
+      "main main main main"
+      "leftside leftside leftside leftside"
+      "footer footer footer footer";
   }
- aside{
-  height: calc(100vh - 64.8px);
-  top:64.8px;
-  position: fixed;
-  background-color: #fff;
- }
 
+  aside {
+    
+    bottom: 0;
+    position: sticky;
+    background-color: #fff;
+  }
 }
