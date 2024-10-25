@@ -8,6 +8,10 @@ import useCompanyauthStore from './store/useCompanyauthStore';
 import useStudentAuthStore from './store/useStudentAuthStore';
 import CompanyHomePage from './Pages/CompanyHomePage';
 import StudentHomePage from './Pages/StudentHomePage';
+import InternshipPage from './Pages/InternshipPage';
+import AppliedPage from './Pages/AppliedPage';
+import ProfilePage from './Pages/ProfilePage';
+import ResumePage from './Pages/ResumePage';
 
 function App() {
  
@@ -34,8 +38,18 @@ function App() {
         
         
         <Route path='/create-interview' element={company ? <CreateInterView /> : <Navigate to={'/auth'} />} />
+        <Route path='/internship' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
+        <Route path='/applied' element={student ? <AppliedPage /> : <Navigate to={'/auth'} />} />
+        <Route path='/profile' element={(student || company) ? <ProfilePage /> : <Navigate to={'/auth'} />} />
+        <Route path='/resume' element={(student) ? <ResumePage /> : <Navigate to={'/auth'} />} />
       </Routes>
-      <Toaster />
+      <Toaster position='right-end' 
+      toastOptions={{
+        style:{
+          opacity:1
+        }
+      }}
+      />
     </div>
   )
 }

@@ -12,10 +12,10 @@ const Header = () => {
 
 
   return (
-    <header className='border-b shadow-md z-10  flex  justify-between items-center navbar w-screen   min-h-16 px-7  py-4'  >
+    <header className='border-b shadow-md z-10 bg-white  flex  justify-between items-center  w-screen   min-h-16 px-7  py-4'  >
       <Box className='flex items-center gap-2'>
         <Link to={'/'}>
-          <Image src='/logo.png' className='w-[121px] h-[30px] max-sm:w-20 max-sm:h-7 mix-blend-screen' />
+          <Image src='/logo.png' className='w-[121px] h-[30px] max-sm:w-20 max-sm:h-7 ' />
         </Link>
       </Box>
       <Box className=' items-center flex gap-5  max-w-md  ' >
@@ -23,24 +23,24 @@ const Header = () => {
           Contact
         </p>
         {(company || student) && (<Menu  >
-         
-            
-              <div className=' cursor-pointer'>
-                <MenuButton as={Avatar} size={'sm'} />
-
-              </div>
 
 
-              <MenuList>
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Settings</MenuItem>
-                <MenuItem>Create Interview</MenuItem>
-                <MenuItem>Find jobs</MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={(e)=>{company?logout():studentLogout()}}  > Logout</MenuItem>
-              </MenuList >
-           
-         
+          <div className=' cursor-pointer'>
+            <MenuButton as={Avatar} size={'sm'} />
+
+          </div>
+
+
+          <MenuList>
+            <Link to='/resume'><MenuItem> Edit Resume</MenuItem></Link>
+           <Link to='/profile'> <MenuItem>Settings</MenuItem></Link>
+            <MenuItem>Create Interview</MenuItem>
+            <MenuItem>Find jobs</MenuItem>
+            <MenuDivider />
+            <MenuItem onClick={(e) => { company ? logout() : studentLogout() }}  > Logout</MenuItem>
+          </MenuList >
+
+
         </Menu>)}
       </Box>
 
