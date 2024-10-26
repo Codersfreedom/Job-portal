@@ -16,7 +16,7 @@ const Job = () => {
               </Stack>
             </Box>
             <Box className="flex gap-2 items-center">
-              <Badge colorScheme="green">Remote</Badge>
+              <Badge padding={1.5} rounded={'md'} colorScheme="green">Remote</Badge>
               <Share2 />
             </Box>
 
@@ -24,7 +24,7 @@ const Job = () => {
         </CardHeader>
         <CardBody>
           <Stack divider={<StackDivider />} spacing='4'>
-            <Box className="flex flex-wrap gap-5 ">
+            <Box className="flex flex-wrap gap-2 w-full ">
               <Tag>Data Mining</Tag>
               <Tag>Data Mining</Tag>
               <Tag>Data Mining</Tag>
@@ -65,14 +65,14 @@ const Job = () => {
               </Box>
             </Box>
             <Box className="flex-col md:flex-row justify-between">
-              <div className="flex md:flex-col justify-between" >
-                <Text  className="text-xs md:text-sm text-start" textTransform='uppercase' color={'green'}>
+              <Stack className=" justify-start" >
+                <Text  className="text-xs md:text-sm t" textTransform='uppercase' color={'green'}>
                   100+ Applicants
                 </Text>
-                <Text  className="text-xs md:text-sm text-end" color={'green'}>
+                <Text  className="text-xs md:text-sm " color={'green'}>
                   Apply by 31 October 2024 | posted 20h ago
                 </Text>
-              </div>
+              </Stack>
               <Box className="flex gap-5 items-end mt-4  ">
                 <Button colorScheme="blue" size={buttonSize}   >View Details</Button>
                 <Button  colorScheme="blue" size={buttonSize} >Apply Now</Button>

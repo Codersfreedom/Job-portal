@@ -34,7 +34,7 @@ const Header = () => {
           <MenuList>
             <Link to='/resume'><MenuItem> Edit Resume</MenuItem></Link>
            <Link to='/profile'> <MenuItem>Settings</MenuItem></Link>
-            <MenuItem>Create Interview</MenuItem>
+           {company && <MenuItem>Create Interview</MenuItem>}
             <MenuItem>Find jobs</MenuItem>
             <MenuDivider />
             <MenuItem onClick={(e) => { company ? logout() : studentLogout() }}  > Logout</MenuItem>
