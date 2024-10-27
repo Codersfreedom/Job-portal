@@ -11,6 +11,7 @@ const useJobStore = create((set) => ({
         method: "GET",
       });
       const data = await response.json();
+      console.log(data);
       if (data.status == true) {
         set({ jobs: data.jobs });
       } else {
@@ -24,3 +25,5 @@ const useJobStore = create((set) => ({
     }
   },
 }));
+
+export default useJobStore;

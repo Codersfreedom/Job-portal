@@ -5,7 +5,7 @@ export const fetchJobs = async (req, res) => {
   try {
     const jobs = await Job.find();
 
-    res.status(200).json({ status: false, jobs });
+    res.status(200).json({ status: true, jobs });
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: false, message: "Internal server error" });
