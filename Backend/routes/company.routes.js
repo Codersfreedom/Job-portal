@@ -9,6 +9,7 @@ import {
 import { protectCompany } from "../middleware/protectCompany.js";
 import { createInterview } from "../controller/company/interviewController.js";
 import { postJob } from "../controller/company/jobController.js";
+import { postInternship } from "../controller/company/internshipController.js";
 
 
 const router = express.Router();
@@ -23,4 +24,5 @@ router.post("/auth/verifyOtp", verifyOtp);
 
 router.post("/interview/create",protectCompany, createInterview);
 router.post("/job/post",protectCompany,postJob);
+router.post("/internship/post",protectCompany,postInternship);
 export default router;

@@ -25,6 +25,17 @@ const studentSchema = mongoose.Schema(
         default: false,
       },
     },
+    applied:{
+      jobs:{
+        type:Array,
+        default:[]
+      },
+      internships:{
+        type:Array,
+        default:[]
+
+      }
+    }
   },
   { timestamps: true }
 );
