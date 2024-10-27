@@ -1,8 +1,8 @@
 import { Avatar, Box, Button, FormControl, FormLabel, HStack, Input, Select, Stack, Tag, TagCloseButton, TagLabel, Textarea } from '@chakra-ui/react'
-import LeftSideBar from '../Components/LeftSideBar'
-import Header from '../Components/Header'
+import LeftSideBar from '../../Components/LeftSideBar'
+import Header from '../../Components/Header'
 import { useState } from 'react'
-import { useCreateInterview } from '../hooks/useCreateInterview'
+import { useCreateInterview } from '../../hooks/useCreateInterview'
 import toast from 'react-hot-toast'
 
 const CreateInterView = () => {
@@ -57,15 +57,15 @@ const CreateInterView = () => {
 
     return (
 
-        <Box className='grid-layout'>
-            <Header isHome={true} />
+        <Box className='grid-layout '>
+            <Header />
             <LeftSideBar />
-            <Box className='w-screen h-screen'>
+            <Box className='main  min-h-screen max-w-screen p-5 md:p-10'>
 
-                <FormControl >
-                    <Stack className='w-[836px] p-10  '>
-                        <Box className='flex text-nowrap items-center gap-5'>
-                            <FormLabel className='text-[32px] leading-[41.66px]'>
+                <FormControl className='max-w-screen-md' >
+                    <Stack className='w-full px-5  '>
+                        <Box className='flex flex-col items-start  w-full text-nowrap'>
+                            <FormLabel className=''>
                                 Job Title
                             </FormLabel>
                             <Input type='text' placeholder='Enter Job Title'
@@ -75,17 +75,17 @@ const CreateInterView = () => {
 
 
 
-                        <Box className='flex text-nowrap items-center gap-5'>
+                        <Box className='flex flex-col text-nowrap items-start '>
                             <FormLabel className='text-[32px] leading-[41.66px]'>
                                 Job Description
                             </FormLabel>
-                            <Textarea rows={10}  placeholder='Enter Job Description'
+                            <Textarea rows={10} placeholder='Enter Job Description'
                                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                             />
                         </Box>
 
 
-                        <Box className='flex text-nowrap items-center gap-5'>
+                        <Box className='flex flex-col text-nowrap items-start '>
                             <FormLabel className='text-[32px] leading-[41.66px]'>
                                 Experience Level
                             </FormLabel>
@@ -96,7 +96,7 @@ const CreateInterView = () => {
                             </Select>
                         </Box>
 
-                        <Box className=' flex flex-col text-nowrap items-end  gap-5'>
+                        <Box className='flex flex-col text-nowrap items-start '>
 
                             <HStack spacing={4} className='w-10/12  p-4 ' >
 
@@ -118,7 +118,7 @@ const CreateInterView = () => {
                             </HStack>
 
 
-                            <Box className='flex text-nowrap items-center gap-5 w-full '>
+                            <Box className='flex flex-col text-nowrap items-start w-full '>
                                 <FormLabel className='text-[32px] leading-[41.66px]'>
                                     Add Candidate
                                 </FormLabel>
@@ -132,7 +132,7 @@ const CreateInterView = () => {
 
 
 
-                        <Box className='flex text-nowrap items-center gap-5'>
+                        <Box className='flex flex-col text-nowrap items-start '>
                             <FormLabel className='text-[32px] leading-[41.66px]'>
                                 End Date
                             </FormLabel>

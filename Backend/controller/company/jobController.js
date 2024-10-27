@@ -3,7 +3,6 @@ import Job from "../../models/Job.js";
 export const postJob = async (req, res) => {
   const {
     title,
-    company,
     jobType,
     offer,
     openings,
@@ -16,9 +15,10 @@ export const postJob = async (req, res) => {
   } = req.body;
 
   try {
+    console.log(req.user._id);
     const newJob = await Job.create({
       title,
-      company,
+      company:req.user._id,
       jobType,
       offer,
       openings,

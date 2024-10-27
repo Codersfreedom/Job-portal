@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Header from '../Components/Header'
 import { Box, Tab, TabList, Tabs } from '@chakra-ui/react';
 import CompanyForm from '../Components/CompanyForm';
-import useCompanyauthStore from '../store/useCompanyauthStore';
+import useCompanyauthStore from '../store/company/useCompanyauthStore';
 import StudentForm from '../Components/StudentForm';
 import LeftSideBar from '../Components/LeftSideBar';
 
 
 const AuthPage = () => {
-  const [isOpen, setOpen] = useState(false);
+
   const { companyId } = useCompanyauthStore();
   const [loginType, setLoginType] = useState();
 
@@ -22,8 +22,8 @@ const AuthPage = () => {
   return (
 
     <Box className=' grid-layout ' >
-      <Header isOpen={isOpen} setOpen={setOpen} />
-      <LeftSideBar isOpen={isOpen} />
+      <Header />
+      <LeftSideBar />
 
 
       <Box className='flex flex-col p-5 w-screen  items-start justify-center gap-10 main'>

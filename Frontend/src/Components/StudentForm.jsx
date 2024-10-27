@@ -2,7 +2,7 @@ import { Box, Button, FormControl, FormLabel, Image, Input, Stack, Switch } from
 import { Lock, Mail, Phone, User } from 'lucide-react';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import useStudentAuthStore from '../store/useStudentAuthStore';
+import useStudentAuthStore from '../store/student/useStudentAuthStore';
 
 const StudentForm = () => {
     const [isLogin, setIslogin] = useState(true);

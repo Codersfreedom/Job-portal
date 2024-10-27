@@ -1,6 +1,6 @@
 import { Box, Button, HStack, Image, Input, PinInput, PinInputField, Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import { useEffect, useState } from 'react'
-import useCompanyauthStore from '../store/useCompanyauthStore';
+import useCompanyauthStore from '../store/company/useCompanyauthStore';
 import toast from 'react-hot-toast';
 
 const CompanyForm = () => {

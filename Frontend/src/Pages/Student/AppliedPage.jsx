@@ -1,10 +1,10 @@
 import { Box, IconButton, Stack, Text } from "@chakra-ui/react"
-import Header from "../Components/Header"
-import LeftSideBar from "../Components/LeftSideBar"
+import Header from "../../Components/Header"
+import LeftSideBar from "../../Components/LeftSideBar"
 import { Filter } from "lucide-react"
-import NoContentUI from "../Components/NoContentUI"
+import NoContentUI from "../../Components/NoContentUI"
 import { useState } from "react"
-import AppliedCard from "../Components/AppliedCard"
+import AppliedCard from "../../Components/AppliedCard"
 
 const AppliedPage = () => {
   const [option, setOption] = useState('internship');

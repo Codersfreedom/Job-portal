@@ -1,6 +1,6 @@
 import  { useState } from 'react'
-import Header from '../Components/Header'
-import LeftSideBar from '../Components/LeftSideBar'
+import Header from '../../Components/Header'
+import LeftSideBar from '../../Components/LeftSideBar'
 import { Avatar, Box, Button, Flex, Icon, Stack, Tag, Text, useBreakpointValue } from '@chakra-ui/react'
 import { ArrowRight, Bird, Book, Download, Edit2, Link, PackagePlusIcon, Plus } from 'lucide-react'
 

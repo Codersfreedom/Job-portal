@@ -1,7 +1,7 @@
 import { Avatar, Box, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
-import useCompanyauthStore from '../store/useCompanyauthStore'
-import useStudentAuthStore from '../store/useStudentAuthStore'
+import useCompanyauthStore from '../store/company/useCompanyauthStore'
+import useStudentAuthStore from '../store/student/useStudentAuthStore'
 
 
 const Header = () => {

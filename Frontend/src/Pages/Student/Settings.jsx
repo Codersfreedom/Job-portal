@@ -1,9 +1,9 @@
 import { Box, Button, Input, Stack, Text } from '@chakra-ui/react'
-import Header from '../Components/Header'
-import LeftSideBar from '../Components/LeftSideBar'
+import Header from '../../Components/Header'
+import LeftSideBar from '../../Components/LeftSideBar'
 
 const ProfilePage = () => {
-    
+
     return (
         <div className='grid-layout'>
             <Header />
@@ -31,12 +31,12 @@ const ProfilePage = () => {
                             <Text>Mobile Number</Text>
                             <Button colorScheme='blue' size={'sm'}>Change</Button>
                         </Box>
-                        <Input type='tel' variant={'filled'}  />
+                        <Input type='tel' variant={'filled'} />
                         <Box className='flex w-full justify-between items-center' >
                             <Text>Whatsapp Number</Text>
                             <Button colorScheme='blue' size={'sm'}>Save</Button>
                         </Box>
-                        <Input type='tel'  />
+                        <Input type='tel' />
                     </Stack>
 
                 </Stack>

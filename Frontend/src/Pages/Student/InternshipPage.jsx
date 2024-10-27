@@ -1,8 +1,8 @@
 import { Box, Stack } from '@chakra-ui/react'
 import React from 'react'
-import Header from '../Components/Header'
-import LeftSideBar from '../Components/LeftSideBar'
-import Internship from '../Components/Internship'
+import Header from '../../Components/Header'
+import LeftSideBar from '../../Components/LeftSideBar'
+import Internship from '../../Components/Internship'
 
 const InternshipPage = () => {
   return (
