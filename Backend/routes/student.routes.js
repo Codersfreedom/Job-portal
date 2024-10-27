@@ -1,8 +1,8 @@
 import express from 'express'
 import { checkAuth, login, logout, signup } from '../controller/student/authController.js';
 import { protectStudent } from '../middleware/protectStudent.js';
-import { fetchJob, fetchJobs } from '../controller/student/jobController.js';
-import { getAllInternships, getInternship } from '../controller/student/internshipController.js';
+import { applyJob, fetchJob, fetchJobs } from '../controller/student/jobController.js';
+import { applyInternship, getAllInternships, getInternship } from '../controller/student/internshipController.js';
 
 
 const router = express.Router();
@@ -17,5 +17,8 @@ router.get("/job/fetch/:id",fetchJob)
 
 router.get("/internship/fetchAll",getAllInternships);
 router.get("/internship/fetch/:id",getInternship);
+
+router.post("/job/apply/:id",protectStudent,applyJob);
+router.post("/internship/apply/:id",protectStudent,applyInternship);
 
 export default router;

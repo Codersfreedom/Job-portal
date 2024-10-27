@@ -42,8 +42,8 @@ const internshipSchema = mongoose.Schema(
       required: true,
     },
     applied: {
-      type: Number,
-      default: 0,
+      type: Array,
+      default: [],
     },
     openings: {
       type: Number,

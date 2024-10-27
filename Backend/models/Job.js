@@ -26,6 +26,10 @@ const jobSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    applied: {
+      type: Array,
+      default: [],
+    },
     startDate: {
       type: Date,
       required: true,
