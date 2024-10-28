@@ -13,6 +13,7 @@ import AppliedPage from './Pages/Student/AppliedPage';
 import ProfilePage from './Pages/Student/Settings';
 import ResumePage from './Pages/Student/ResumePage';
 import PostJob from './Pages/Company/PostJob';
+import JobPage from './Pages/Student/JobPage';
 
 function App() {
 
@@ -41,7 +42,9 @@ function App() {
         <Route path='/create-interview' element={company ? <CreateInterView /> : <Navigate to={'/auth'} />} />
         <Route path='/post-job' element={company ? <PostJob /> : <Navigate to={'/auth'} />} />
         
+        <Route path='/job/:id' element={student ? <JobPage /> : <Navigate to={'/auth'} />} />
         <Route path='/internship' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
+        <Route path='/internship/:id' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
         <Route path='/applied' element={student ? <AppliedPage /> : <Navigate to={'/auth'} />} />
         <Route path='/profile' element={(student || company) ? <ProfilePage /> : <Navigate to={'/auth'} />} />
         <Route path='/resume' element={(student) ? <ResumePage /> : <Navigate to={'/auth'} />} />

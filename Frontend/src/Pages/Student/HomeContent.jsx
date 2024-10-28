@@ -31,8 +31,8 @@ const HomeContent = () => {
 
       <Stack className="max-w-screen-md">
         {student && jobs && jobs.map((job)=>(
-          <Skeleton isLoaded={!isLoading}>
-            <Job key={job._id} job={job} />
+          <Skeleton isLoaded={!isLoading} key={job._id}  >
+            <Job  job={job} />
 
           </Skeleton>
         ))
