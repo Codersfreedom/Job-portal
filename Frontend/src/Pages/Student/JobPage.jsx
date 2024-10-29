@@ -54,7 +54,7 @@ const JobPage = () => {
             <Header />
             <LeftSideBar />
             <Box className="main max-w-screen min-h-screen p-5 ">
-                <Stack className="w-full px-5">
+                <Stack className="w-full ">
                     <Card>
 
                         <CardHeader>

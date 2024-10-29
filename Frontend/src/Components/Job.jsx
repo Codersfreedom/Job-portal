@@ -7,7 +7,7 @@ import { Link } from "react-router-dom"
 const Job = ({job}) => {
   const buttonSize = useBreakpointValue(['xs','md'])
   return (
-    <Stack className="w-full px-5">
+    <Stack className="w-full ">
       <Card>
         <CardHeader>
           <Heading size='sm' display={'flex'} alignItems={'center'} justifyContent={'space-between'} gap={2}>
@@ -76,10 +76,9 @@ const Job = ({job}) => {
                 </Text>
               </Stack>
               <Box className="flex gap-5 items-end mt-4  ">
-                <Button colorScheme="blue" size={buttonSize}><Link to={`/job/${job._id}`}>View Details</Link></Button>
+                <Button  colorScheme="blue" size={buttonSize}><Link to={`/job/${job._id}`}>View Details</Link></Button>
                 <Button  colorScheme="blue" size={buttonSize} >Apply Now</Button>
               </Box>
-
             </Box>
           </Stack>
         </CardBody>
