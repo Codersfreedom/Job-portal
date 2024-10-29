@@ -28,8 +28,8 @@ const Job = ({job}) => {
         <CardBody>
           <Stack divider={<StackDivider />} spacing='4'>
             <Box className="flex flex-wrap gap-2 w-full ">
-              {job.skills.map((skill)=>(
-                <Tag>{skill}</Tag>
+              {job.skills.map((skill,idx)=>(
+                <Tag key={idx} >{skill}</Tag>
 
               ))
               }

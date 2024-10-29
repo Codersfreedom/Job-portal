@@ -25,9 +25,9 @@ function App() {
 
     checkCompanyauth();
     checkStudentAuth()
-  }, [])
+  }, [checkCompanyauth,checkStudentAuth])
 
-  if (isLoading || isCheckingAuth) return;
+  if (isLoading || isCheckingAuth) return null;
 
   return (
     <div className='min-h-screen w-screen flex-1 justify-start'>

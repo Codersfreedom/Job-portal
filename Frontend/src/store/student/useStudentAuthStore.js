@@ -3,7 +3,7 @@ import { create } from "zustand";
 
 const useStudentAuthStore = create((set) => ({
   student: null,
-  isLoading: false,
+  isLoading: true,
 
   signup: async (authData) => {
     set({ isLoading: true });

@@ -13,9 +13,10 @@ export const fetchJobs = async (req, res) => {
 };
 export const fetchJob = async (req, res) => {
   const { id } = req.params;
+  console.log(id)
 
   try {
-    const job = await Job.findById({ id });
+    const job = await Job.findById( id );
     if (job) {
       return res.status(200).json({ status: true, job });
     } else {

@@ -5,7 +5,7 @@ const useCompanyauthStore = create((set, get) => ({
   company: null,
   companyId: null,
   companyEmail:null,
-  isLoading: false,
+  isLoading: true,
 
   signup: async (authData) => {
     try {
