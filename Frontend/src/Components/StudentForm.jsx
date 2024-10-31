@@ -76,7 +76,7 @@ const StudentForm = () => {
                                 </FormLabel>
                                 <Switch id='email-alerts' value={authData.isWhatsapp} onChange={(e) => setAuthData({ ...authData, contact: { ...authData.contact, isWhatsapp: !authData.isWhatsapp } })} />
                             </FormControl>
-                            <Input type='tel' placeholder='Phone no' className=' border-[2px] border-[#535353]  ' paddingLeft={8}
+                            <Input type='number' inputMode='numeric' placeholder='Phone no' className=' border-[2px] border-[#535353]  ' paddingLeft={8}
                                 onChange={(e) => setAuthData({ ...authData, contact: { ...authData.contact, phone: e.target.value } })}
                             />
                             <Phone src='/mail.png' className='absolute top-10 left-2  w-5 ' />
@@ -118,7 +118,7 @@ const StudentForm = () => {
                             colorScheme='blue'
                         >Login </Button>
 
-                        <p>Don't have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>SignUp</span></p>
+                        <p>Don't have an account? <strong className='cursor-pointer text-blue-700' onClick={() => setIslogin(!isLogin)}>SignUp</strong></p>
                     </>
                 }
 
@@ -127,7 +127,7 @@ const StudentForm = () => {
                     colorScheme='blue'
                     onClick={handleSignup}
                 >Proceed</Button>
-                    <p>Already have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>Login</span></p></>}
+                    <p>Already have an account? <strong className='cursor-pointer text-blue-700' onClick={() => setIslogin(!isLogin)}>Login</strong></p></>}
             </Stack>
 
         </Stack>

@@ -62,7 +62,7 @@ const isLoading=false;
     return `${minutes}:${remainingSeconds < 10 ? `0${remainingSeconds}` : remainingSeconds}`;
 
   }
-  console.log(timer)
+
   const handleVerifyOtp = (e) => {
     e.preventDefault();
     if (timer === 0) {
@@ -78,7 +78,7 @@ const isLoading=false;
 
 
   return (
-    <Stack className=' rounded-[15px]   p-12 w-full  text-center  '>
+    <Stack className=' rounded-[15px]   p-5 w-full  text-center  '>
       <Box className='pb-5'>
         <h2 className='text-xl font-bold '>{!isLogin ? "Sign Up" : "Login"}</h2>
         <p className='text-lg font-semibold'>{isLogin ? 'Login to your account' : 'Create an account'}</p>
@@ -148,7 +148,7 @@ const isLoading=false;
               colorScheme='blue'
             >Send Otp </Button>
 
-            <p>Don't have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>SignUp</span></p>
+            <p>Don't have an account? <strong className='cursor-pointer text-blue-700' onClick={() => setIslogin(!isLogin)}>SignUp</strong></p>
           </>
         }
 
@@ -175,7 +175,7 @@ const isLoading=false;
             colorScheme='blue'
           >{timer === 0 ? 'Resend Otp' : 'Verify OTP'} </Button>
 
-          <p>Don't have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>SignUp</span></p>
+          <p>Don't have an account? <strong className='cursor-pointer text-blue-700' onClick={() => setIslogin(!isLogin)}>SignUp</strong></p>
         </>
 
 
@@ -187,7 +187,7 @@ const isLoading=false;
           colorScheme='blue'
           onClick={handleSignup}
         >Proceed</Button>
-          <p>Already have an account? <span className='cursor-pointer' onClick={() => setIslogin(!isLogin)}>Login</span></p></>}
+          <p>Already have an account? {" "} <strong className='cursor-pointer text-blue-700' onClick={() => setIslogin(!isLogin)}>Login</strong></p></>}
       </Stack>
 
     </Stack>

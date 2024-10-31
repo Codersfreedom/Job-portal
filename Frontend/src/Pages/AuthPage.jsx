@@ -26,9 +26,9 @@ const AuthPage = () => {
       <LeftSideBar />
 
 
-      <Box className='flex flex-col p-5 w-screen  items-start justify-center gap-10 main'>
+      <Box className='flex flex-col p-5 w-screen min-h-screen  items-start justify-start gap-10 main'>
 
-        <Box className='self-end p-4 lg:pr-16 space-x-3'>
+        <Box className='self-end p-4 lg:pr-16 w-fit space-x-3'>
           <Tabs variant='soft-rounded' colorScheme='blue' index={loginType === "student" ? 0 : 1}>
             <TabList>
               <Tab onClick={() => setLoginType("student")} >Student</Tab>
@@ -37,10 +37,10 @@ const AuthPage = () => {
           </Tabs>
         </Box>
 
-        <Box className='flex gap-10 w-full'>
+        <Box className='flex  w-full'>
           <Box className='hidden md:flex    sm:text-xs w-2/5 p-12  '>
 
-            <Box className='text-start mt-20  leading-[28.95px] text-lg text-balance  font-medium text-[#292929B2]  flex  '>
+            <Box className='text-start mt-20  leading-[28.95px] text-lg text-balance  font-medium   flex  '>
               <p>Lorem Ipsum is simply dummy text of the printing and  typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley</p>
 
             </Box>
