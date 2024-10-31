@@ -34,11 +34,11 @@ const AppliedPage = () => {
         <Stack className="max-w-screen-md border-2 bg-gray-100 rounded-md p-1 md:p-3">
           <Box className="flex gap-2 items-center w-full  justify-between">
             <Box className="border-r-4 pr-2 md:pr-10 w-1/2 text-center text-nowrap">
-              <Text className={` md:text-xl inline cursor-pointer transition-transform duration-300 ease-in-out font-medium ${option === 'jobs' && 'border-b-2 border-blue-700 text-blue-600'} `} onClick={() => setOption('jobs')}>Applied Jobs({jobs?.length})</Text>
+              <Text className={` md:text-xl inline cursor-pointer transition-transform duration-100 ease-in-out hover:border-b-2 border-blue-500 hover:text-blue-600  font-medium ${option === 'jobs' && 'border-b-2 border-blue-700 text-blue-600'} `} onClick={() => setOption('jobs')}>Applied Jobs({jobs?.length})</Text>
 
             </Box>
             <Box className="flex-1 text-center text-nowrap">
-              <Text className={`md:text-xl inline cursor-pointer transition-transform duration-300 ease-in-out font-medium ${option === 'internships' && 'border-b-2 border-blue-700 text-blue-600'} `} onClick={() => setOption('internships')}>Applied Internships({internships?.length})</Text>
+              <Text className={`md:text-xl inline cursor-pointer  duration-100 ease-in-out hover:border-b-2 border-blue-500 hover:text-blue-600 font-medium ${option === 'internships' && 'border-b-2 border-blue-700 text-blue-600'} `} onClick={() => setOption('internships')}>Applied Internships({internships?.length})</Text>
 
             </Box>
             <IconButton icon={<Filter color="blue" />}></IconButton>
