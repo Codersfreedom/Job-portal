@@ -68,9 +68,8 @@ footer {
   }
 
   aside {
-    
     bottom: 0;
     position: sticky;
-    background-color: #fff;
+    border-top: 1px solid gray;
   }
 }

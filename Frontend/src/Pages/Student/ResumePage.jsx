@@ -1,20 +1,21 @@
-import  { useState } from 'react'
+import { useState } from 'react'
 import Header from '../../Components/Header'
 import LeftSideBar from '../../Components/LeftSideBar'
-import { Avatar, Box, Button, Flex, Icon, Stack, Tag, Text, useBreakpointValue } from '@chakra-ui/react'
+import { Avatar, Box, Button, Flex, Icon, Stack, Tag, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react'
 import { ArrowRight, Bird, Book, Download, Edit2, Link, PackagePlusIcon, Plus } from 'lucide-react'
 
 const ResumePage = () => {
     const [menu, setMenu] = useState('education');
 
+    const { colorMode } = useColorMode()
 
     const buttonSize = useBreakpointValue(['sm', 'md'])
     return (
-        <div className='grid-layout'>
+        <Box className='grid-layout'>
             <Header />
             <LeftSideBar />
             <Stack className='main p-5 md:p-10 max-w-screen-xl'>
-                <Box className='flex flex-col md:flex-row items-center gap-10 w-full mt-10 bg-slate-100 p-10 rounded-lg'>
+                <Box className={`flex flex-col md:flex-row items-center gap-10 w-full mt-10 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'}  p-10 rounded-lg`}>
                     <Avatar name='Rakesh Manna' size={'xl'} />
                     <Box className='text-center md:text-start'>
                         <Text className='text-2xl font-extrabold'>Rakesh Manna</Text>
@@ -22,17 +23,17 @@ const ResumePage = () => {
                         <Text className='font-light'>Neotia Instituite of Technologoy Management and Scienence <span>2024 Pass out</span></Text>
                     </Box>
                     <Box className='flex flex-col md:flex-row gap-5'>
-                        <Button size={buttonSize} rightIcon={<Edit2 size={'18px'}/>} colorScheme='blue'>Edit</Button>
-                        <Button size={buttonSize} rightIcon={<Download/>} colorScheme='blue'>Download Resume</Button>
+                        <Button size={buttonSize} rightIcon={<Edit2 size={'18px'} />} colorScheme='blue'>Edit</Button>
+                        <Button size={buttonSize} rightIcon={<Download />} colorScheme='blue'>Download Resume</Button>
                     </Box>
 
                 </Box>
                 <Box className='max-w-full overflow-x-scroll md:overflow-hidden flex gap-10 p-5 text-nowrap text-md md:text-xl font-thin '>
                     <Text onClick={() => setMenu('education')} className={`${menu === 'education' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Education</Text>
                     <Text onClick={() => setMenu('projects')} className={`${menu === 'projects' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer`}>Projects</Text>
-                    <Text onClick={() => setMenu('work_experience')} className={`${menu === 'work_experience' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer`}>Work Experience </Text>
-                    <Text onClick={() => setMenu('achievements')} className={`${menu === 'achievements' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer`}>Achievements</Text>
-                    <Text onClick={() => setMenu('certiffications')} className={`${menu === 'certiffications' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer`}>Certiffications</Text>
+                    <Text onClick={() => setMenu('work_experience')} className={`${menu === 'work_experience' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Work Experience </Text>
+                    <Text onClick={() => setMenu('achievements')} className={`${menu === 'achievements' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Achievements</Text>
+                    <Text onClick={() => setMenu('certiffications')} className={`${menu === 'certiffications' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Certiffications</Text>
 
                 </Box>
 
@@ -64,7 +65,7 @@ const ResumePage = () => {
                                 </Box>
                             </Stack>
 
-                            <Stack className='w-full mt-5 py-5 bg-slate-100 rounded-lg'>
+                            <Stack className={`w-full mt-5 py-5 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} rounded-lg`}>
 
 
                                 <Box className='flex justify-between px-3 '>
@@ -115,7 +116,7 @@ const ResumePage = () => {
                                 </Box>
                             </Stack>
 
-                            <Stack className='w-full mt-5 py-5 bg-slate-100 rounded-lg'>
+                            <Stack className={`w-full mt-5 py-5 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} rounded-lg`}>
 
 
                                 <Box className='flex justify-between px-3 '>
@@ -191,7 +192,7 @@ const ResumePage = () => {
                                 </Box>
                             </Stack>
 
-                            <Flex className='w-full mt-5 py-5 bg-slate-100 rounded-lg  '>
+                            <Flex className={`w-full mt-5 py-5 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} rounded-lg`}>
 
 
                                 <Stack className='w-4/6 border-r-2' >
@@ -282,7 +283,7 @@ const ResumePage = () => {
                                     </Box>
 
                                     <Stack gap={1} className='flex-wrap ' >
-                                        <Text>Add Achievements <br/>/Extracurricular Activity</Text>
+                                        <Text>Add Achievements <br />/Extracurricular Activity</Text>
                                         <Text>Add your achievements of Hackathons, NGO services, Exam ranks, Clubs, etc.</Text>
                                     </Stack>
                                     <Box >
@@ -300,7 +301,7 @@ const ResumePage = () => {
                                 </Box>
 
 
-                                <Stack gap={2} className='w-full rounded-md border-1  bg-gray-100 p-2'>
+                                <Stack gap={2} className={`w-full rounded-md border-1  ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} p-2`}>
                                     <Box className='flex justify-between'>
                                         <Text>Goldman Sachs virtual internship</Text>
                                         <Button
@@ -341,7 +342,7 @@ const ResumePage = () => {
                                         <Button
                                             variant={'outline'}
                                             colorScheme='blue'
-                                            size={'xs'}
+                                            size={buttonSize}
                                             leftIcon={<Plus size={'15px'} />}
                                         >
                                             Add new
@@ -351,7 +352,7 @@ const ResumePage = () => {
 
                                 </Box>
 
-                                <Stack gap={2} className='w-full rounded-md border-1  bg-gray-100 p-2'>
+                                <Stack gap={2} className={`w-full rounded-md border-1  ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} p-2`}>
                                     <Box className='flex justify-between'>
                                         <Text>Goldman Sachs virtual internship</Text>
                                         <Button
@@ -376,7 +377,7 @@ const ResumePage = () => {
                 </Stack>
             </Stack>
 
-        </div>
+        </Box>
     )
 }
 
