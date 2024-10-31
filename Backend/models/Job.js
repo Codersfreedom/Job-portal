@@ -26,10 +26,7 @@ const jobSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
-    applied: {
-      type: Array,
-      default: [],
-    },
+    applied: [{ type: mongoose.Schema.Types.ObjectId, ref: "Student" }],
     startDate: {
       type: Date,
       required: true,

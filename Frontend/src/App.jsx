@@ -13,7 +13,7 @@ import AppliedPage from './Pages/Student/AppliedPage';
 import ProfilePage from './Pages/Student/Settings';
 import ResumePage from './Pages/Student/ResumePage';
 import PostJob from './Pages/Company/PostJob';
-import JobPage from './Pages/Student/JobPage';
+import JobDetails from './Pages/Student/JobDetails';
 
 function App() {
 
@@ -25,7 +25,7 @@ function App() {
 
     checkCompanyauth();
     checkStudentAuth()
-  }, [checkCompanyauth,checkStudentAuth])
+  }, [checkCompanyauth, checkStudentAuth])
 
   if (isLoading || isCheckingAuth) return null;
 
@@ -41,8 +41,8 @@ function App() {
 
         <Route path='/create-interview' element={company ? <CreateInterView /> : <Navigate to={'/auth'} />} />
         <Route path='/post-job' element={company ? <PostJob /> : <Navigate to={'/auth'} />} />
-        
-        <Route path='/job/:id' element={student ? <JobPage /> : <Navigate to={'/auth'} />} />
+
+        <Route path='/job/:id' element={<JobDetails />} />
         <Route path='/internship' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
         <Route path='/internship/:id' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
         <Route path='/applied' element={student ? <AppliedPage /> : <Navigate to={'/auth'} />} />

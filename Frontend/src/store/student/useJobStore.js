@@ -11,7 +11,7 @@ const useJobStore = create((set) => ({
         method: "GET",
       });
       const data = await response.json();
-     
+
       if (data.status == true) {
         set({ jobs: data.jobs });
       } else {
@@ -24,25 +24,63 @@ const useJobStore = create((set) => ({
       set({ isLoading: false });
     }
   },
-  fetchJob:async (id)=>{
-    set({isLoading:true})
+  fetchJob: async (id) => {
+    set({ isLoading: true });
     try {
-      const response = await fetch(`/api/student/job/fetch/${id}`,{
-        method:"GET"
+      const response = await fetch(`/api/student/job/fetch/${id}`, {
+        method: "GET",
       });
       const data = await response.json();
-      console.log(data)
-      if(data.status==true){
-        set({isLoading:false})
+
+      if (data.status == true) {
+        set({ isLoading: false });
         return data.job;
-      }else{
+      } else {
         throw new Error(data.message);
       }
     } catch (error) {
-      console.log(error.message)
-      set({isLoading:false})
+      console.log(error.message);
+      set({ isLoading: false });
     }
-  }
+  },
+  fetchAppliedJobs: async () => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch("/api/student/job/fetchApplied", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      if (data.status == true) {
+        return data.jobs;
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+  fetchAppliedInternships: async () => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch("/api/student/internship/fetchApplied", {
+        method: "GET",
+      });
+
+      const data = await response.json();
+      if (data.status == true) {
+        return data.internships;
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));
 
 export default useJobStore;

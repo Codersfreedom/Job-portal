@@ -1,8 +1,10 @@
 import { Avatar, Badge, Box, Button, Card, CardBody, CardHeader, Heading, Stack, StackDivider, Text, Tooltip, useBreakpointValue } from "@chakra-ui/react"
 import {  Info,  Share2 } from "lucide-react"
+import formatDate from "../utils/FormatDate"
+import { Link } from "react-router-dom"
 
 
-const AppliedCard = () => {
+const AppliedCard = ({job}) => {
   const buttonSize = useBreakpointValue(['xs', 'md'])
   return (
     <Card>
@@ -11,12 +13,12 @@ const AppliedCard = () => {
           <Box className="flex gap-3 items-center justify-center">
             <Avatar src="" name="RM" />
             <Stack>
-              <Text>Fix Healt</Text>
+              <Text>{job.title}</Text>
               <Text fontWeight={'light'} size={'sm'}>Bangalore,India</Text>
             </Stack>
           </Box>
           <Box className="flex flex-col-reverse items-end  md:flex-row gap-2  md:items-center">
-            <Badge padding={1.5} rounded={'md'} colorScheme="green">Remote</Badge>
+            <Badge padding={1.5} rounded={'md'} colorScheme="green">{job.jobType}</Badge>
             <Tooltip
               label="Application is being reviewed by the company.this process can take 1-2 days. "
               hasArrow
@@ -39,14 +41,14 @@ const AppliedCard = () => {
           <Box className="flex-col md:flex-row justify-between">
             <Stack className=" justify-start" >
               <Text color={'green'}>
-                Job closes on 31 Oct 2024
+                Job closes on {formatDate(job.endDate)}
               </Text>
               <Text  color={'green'}>
-                Applied on 31 October 2024
+                {job.applied.length} Applicantes
               </Text>
             </Stack>
             <Box className="flex gap-5 items-end mt-4  ">
-              <Button colorScheme="blue" >View Details</Button>
+              <Button colorScheme="blue" > <Link to={`/job/${job._id}`}>View Details</Link></Button>
               <Button colorScheme="blue"  >Messages</Button>
             </Box>
 

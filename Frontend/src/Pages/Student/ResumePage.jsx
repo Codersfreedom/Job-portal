@@ -13,7 +13,7 @@ const ResumePage = () => {
         <div className='grid-layout'>
             <Header />
             <LeftSideBar />
-            <Stack className='main p-10 max-w-screen-xl'>
+            <Stack className='main p-5 md:p-10 max-w-screen-xl'>
                 <Box className='flex flex-col md:flex-row items-center gap-10 w-full mt-10 bg-slate-100 p-10 rounded-lg'>
                     <Avatar name='Rakesh Manna' size={'xl'} />
                     <Box className='text-center md:text-start'>

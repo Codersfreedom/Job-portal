@@ -5,6 +5,34 @@ const useStudentAuthStore = create((set) => ({
   student: null,
   isLoading: true,
 
+  applyJob: async (id) => {
+    set({ isLoading: true });
+    try {
+      const response = await fetch(`/api/student/job/apply/${id}`, {
+        method: "PUT",
+      });
+      const data = await response.json();
+      if (data.status == true) {
+        set((state) => ({
+          student: {
+            ...state.student,
+            applied: {
+              ...state.student.applied,
+              jobs: [...state.student.applied.jobs, id],
+            },
+          },
+        }));
+        toast.success(data.message);
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+      toast.error(error.message);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
   signup: async (authData) => {
     set({ isLoading: true });
     try {

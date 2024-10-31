@@ -10,7 +10,7 @@ const studentSchema = mongoose.Schema(
     email: {
       type: String,
       required: true,
-      unique:true
+      unique: true,
     },
     password: {
       type: String,
@@ -25,17 +25,12 @@ const studentSchema = mongoose.Schema(
         default: false,
       },
     },
-    applied:{
-      jobs:{
-        type:Array,
-        default:[]
-      },
-      internships:{
-        type:Array,
-        default:[]
-
-      }
-    }
+    applied: {
+      jobs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Job" }],
+      internships: [
+        { type: mongoose.Schema.Types.ObjectId, ref: "Internship" },
+      ],
+    },
   },
   { timestamps: true }
 );
@@ -52,7 +47,6 @@ studentSchema.pre("save", async function (next) {
 });
 
 studentSchema.methods.comparePassword = async function (password) {
- 
   return bcrypt.compare(password, this.password);
 };
 

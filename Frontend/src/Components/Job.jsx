@@ -1,11 +1,24 @@
-import { Avatar, Badge, Box, Button, Card, CardBody, CardHeader, Heading, Image, Stack, StackDivider, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
+import { Avatar, Badge, Box, Button, Card, CardBody, CardHeader, Heading, Stack, StackDivider, Tag, Text, useBreakpointValue } from "@chakra-ui/react"
 import { Brain, Calendar, DoorOpen, History, IndianRupee, ReceiptIndianRupee, Share2, User } from "lucide-react"
 import formatDate from "../utils/FormatDate"
 import timeAgo from "../utils/timeAgo"
 import { Link } from "react-router-dom"
+import useStudentAuthStore from "../store/student/useStudentAuthStore"
 
-const Job = ({job}) => {
-  const buttonSize = useBreakpointValue(['xs','md'])
+
+const Job = ({ job }) => {
+  const { student, applyJob,isLoading } = useStudentAuthStore();
+
+  const buttonSize = useBreakpointValue(['xs', 'md']);
+
+  const isApplied = student?.applied.jobs.includes(job._id);
+
+  const handleApply = () => {
+
+    applyJob(job?._id)
+
+  }
+
   return (
     <Stack className="w-full ">
       <Card>
@@ -28,12 +41,12 @@ const Job = ({job}) => {
         <CardBody>
           <Stack divider={<StackDivider />} spacing='4'>
             <Box className="flex flex-wrap gap-2 w-full ">
-              {job.skills.map((skill,idx)=>(
+              {job.skills.map((skill, idx) => (
                 <Tag key={idx} >{skill}</Tag>
 
               ))
               }
-              
+
 
             </Box>
             <Box className="flex flex-wrap gap-10 ">
@@ -49,9 +62,9 @@ const Job = ({job}) => {
                   <Calendar size={'15px'} />
                   <Heading size={'sm'}> Start Date</Heading>
                 </Box>
-                <Text className="flex gap-2 items-center mt-2 "> <History size={'15px'} /> {  formatDate(job.startDate)}</Text>
+                <Text className="flex gap-2 items-center mt-2 "> <History size={'15px'} /> {formatDate(job.startDate)}</Text>
               </Stack>
-              <Stack  alignItems={'center'}>
+              <Stack alignItems={'center'}>
                 <Box className="flex items-center justify-center gap-1 ">
                   <DoorOpen size={'15px'} />
                   <Heading size={'sm'} > Openings</Heading>
@@ -68,16 +81,16 @@ const Job = ({job}) => {
             </Box>
             <Box className="flex-col md:flex-row justify-between">
               <Stack className=" justify-start" >
-                <Text  className="text-xs md:text-sm t" textTransform='uppercase' color={'green'}>
+                <Text className="text-xs md:text-sm t" textTransform='uppercase' color={'green'}>
                   {job.applied.length} Applicants
                 </Text>
-                <Text  className="text-xs md:text-sm " color={'green'}>
+                <Text className="text-xs md:text-sm " color={'green'}>
                   Apply by  {formatDate(job.endDate)} | Posted {timeAgo(job.createdAt)}
                 </Text>
               </Stack>
               <Box className="flex gap-5 items-end mt-4  ">
-                <Button  colorScheme="blue" size={buttonSize}><Link to={`/job/${job._id}`}>View Details</Link></Button>
-                <Button  colorScheme="blue" size={buttonSize} >Apply Now</Button>
+                <Button colorScheme="blue" size={buttonSize}><Link to={`/job/${job._id}`}>View Details</Link></Button>
+                <Button isLoading={isLoading} colorScheme="blue" size={buttonSize} onClick={handleApply} >{isApplied ? 'Applied' : 'Apply now'}</Button>
               </Box>
             </Box>
           </Stack>

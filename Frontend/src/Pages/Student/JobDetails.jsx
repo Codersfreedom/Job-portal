@@ -7,13 +7,19 @@ import timeAgo from "../../utils/timeAgo"
 import useJobStore from "../../store/student/useJobStore"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
+import useStudentAuthStore from "../../store/student/useStudentAuthStore"
 
-const JobPage = () => {
+const JobDetails = () => {
     const [job, setJob] = useState();
 
+
     const { fetchJob, isLoading } = useJobStore();
+    const { applyJob,student } = useStudentAuthStore();
 
     const { id } = useParams();
+
+
+
 
     useEffect(() => {
         const getJob = async () => {
@@ -22,15 +28,20 @@ const JobPage = () => {
         getJob();
     }, [id])
 
-
+    const handleApplyJob = () => {
+        applyJob(id);
+    }
+    
     const buttonSize = useBreakpointValue(['xs', 'md'])
 
+    const isApplied = student?.applied?.jobs.includes(id);
+
     return (
-        <div className="grid-layout">
+        <Box className="grid-layout ">
             <Header />
             <LeftSideBar />
-            <Box className="main max-w-screen min-h-screen p-5 ">
-                <Stack className="w-full ">
+            <Box className="main max-w-screen-lg min-h-screen  p-5 md:p-10  ">
+                <Stack className="w-full md:px-5 ">
                     <Card>
 
                         <CardHeader>
@@ -139,7 +150,7 @@ const JobPage = () => {
                                     </Stack>
                                     <Box className="flex gap-5 items-end mt-4  ">
 
-                                        <Button colorScheme="blue" size={buttonSize} >Apply Now</Button>
+                                        <Button colorScheme="blue" onClick={handleApplyJob} size={buttonSize} >{isApplied ? 'Applied':'Apply now'}</Button>
                                     </Box>
 
                                 </Box>
@@ -147,7 +158,7 @@ const JobPage = () => {
                         </CardBody>
                     </Card>
                 </Stack>
-                <Stack className="w-full px-5 mt-10">
+                <Stack className="w-full md:px-5 mt-10">
                     <Card>
                         <CardHeader>
                             <Heading>Required Skills</Heading>
@@ -167,7 +178,7 @@ const JobPage = () => {
                     </Card>
                 </Stack>
 
-                <Stack className="w-full px-5 mt-10">
+                <Stack className="w-full md:px-5 mt-10">
                     <Card>
                         <CardHeader>
                             <Heading>About</Heading>
@@ -186,8 +197,8 @@ const JobPage = () => {
                     </Card>
                 </Stack>
             </Box>
-        </div>
+        </Box>
     )
 }
 
-export default JobPage
+export default JobDetails

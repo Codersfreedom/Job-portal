@@ -7,18 +7,18 @@ import Internship from '../../Components/Internship'
 const InternshipPage = () => {
   return (
 
-    <div className='grid-layout'>
+    <Box className='grid-layout '>
       <Header/>
       <LeftSideBar/>
 
-      <Box className="main min-h-screen max-w-screen flex p-5 md:p-10 justify-start items-start" >
+      <Box className="main min-h-screen max-w-screen flex p-5 md:p-10 justify-start items-start " >
         <Stack className='max-w-screen-md'>
           <Internship/>
          
         </Stack>
       </Box>
 
-    </div>
+    </Box>
   )
 }
 
