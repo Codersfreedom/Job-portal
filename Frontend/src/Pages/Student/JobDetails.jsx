@@ -8,16 +8,16 @@ import useJobStore from "../../store/student/useJobStore"
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import useStudentAuthStore from "../../store/student/useStudentAuthStore"
+import toast from "react-hot-toast"
 
 const JobDetails = () => {
     const [job, setJob] = useState();
 
 
     const { fetchJob, isLoading } = useJobStore();
-    const { applyJob,student } = useStudentAuthStore();
+    const { applyJob, student } = useStudentAuthStore();
 
     const { id } = useParams();
-
 
 
 
@@ -28,13 +28,29 @@ const JobDetails = () => {
         getJob();
     }, [id])
 
+    const isApplied = student?.applied?.jobs.includes(id);
+
     const handleApplyJob = () => {
+        if (isApplied) return toast.error("You have already applied to this job")
         applyJob(id);
     }
-    
+
+    const handleShare = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: "Apply now!",
+                text: job?.title,
+                url: window.location.href
+            }).then(() => toast.success("Job shared"))
+                .catch((error) => console.log(error))
+        } else {
+            toast.error("Your browser doesn't support his feature")
+        }
+    }
+
     const buttonSize = useBreakpointValue(['xs', 'md'])
 
-    const isApplied = student?.applied?.jobs.includes(id);
+
 
     return (
         <Box className="grid-layout ">
@@ -68,7 +84,7 @@ const JobDetails = () => {
 
                                     </Skeleton>
                                     <Bookmark />
-                                    <Share2 />
+                                    <Share2 cursor={'pointer'} onClick={handleShare} />
                                 </Box>
 
                             </Heading>
@@ -150,7 +166,7 @@ const JobDetails = () => {
                                     </Stack>
                                     <Box className="flex gap-5 items-end mt-4  ">
 
-                                        <Button colorScheme="blue" onClick={handleApplyJob} size={buttonSize} >{isApplied ? 'Applied':'Apply now'}</Button>
+                                        <Button colorScheme="blue" onClick={handleApplyJob} size={buttonSize} >{isApplied ? 'Applied' : 'Apply now'}</Button>
                                     </Box>
 
                                 </Box>
@@ -195,6 +211,7 @@ const JobDetails = () => {
                             </Box>
                         </CardBody>
                     </Card>
+
                 </Stack>
             </Box>
         </Box>

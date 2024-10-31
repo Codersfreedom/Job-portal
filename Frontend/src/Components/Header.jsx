@@ -42,10 +42,11 @@ const Header = () => {
 
 
           <MenuList>
-            <Link to='/resume'><MenuItem> Edit Resume</MenuItem></Link>
+            {student && <Link to='/resume'><MenuItem> Edit Resume</MenuItem></Link>}
             <Link to='/profile'> <MenuItem>Settings</MenuItem></Link>
-            {company && <MenuItem>Create Interview</MenuItem>}
-            <MenuItem>Find jobs</MenuItem>
+            {company && <Link to='/create-interview'><MenuItem>Create Interview</MenuItem> </Link> }
+            {company && <Link to='/post-job'><MenuItem>Post Job</MenuItem> </Link>}
+            {student&& <MenuItem>Find jobs</MenuItem>}
             <MenuDivider />
             <MenuItem onClick={(e) => { company ? logout() : studentLogout() }}  > Logout</MenuItem>
           </MenuList >

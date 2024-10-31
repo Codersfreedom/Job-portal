@@ -4,19 +4,32 @@ import formatDate from "../utils/FormatDate"
 import timeAgo from "../utils/timeAgo"
 import { Link } from "react-router-dom"
 import useStudentAuthStore from "../store/student/useStudentAuthStore"
+import toast from "react-hot-toast"
 
 
 const Job = ({ job }) => {
-  const { student, applyJob,isLoading } = useStudentAuthStore();
+  const { student, applyJob, isLoading } = useStudentAuthStore();
 
   const buttonSize = useBreakpointValue(['xs', 'md']);
 
   const isApplied = student?.applied.jobs.includes(job._id);
 
   const handleApply = () => {
-
+    if (isApplied) return toast.error("You have already applied to this job")
     applyJob(job?._id)
 
+  }
+  const handleShare = () => {
+    if (navigator.share) {
+      navigator.share({
+        title: "Apply this job now!",
+        text: job?.title,
+        url: `${window.location.href}job/${job._id}`
+      }).then(() => toast.success("Job shared"))
+        .catch((error) => console.log(error))
+    } else {
+      alert('Share not supported on this browser')
+    }
   }
 
   return (
@@ -33,7 +46,7 @@ const Job = ({ job }) => {
             </Box>
             <Box className="flex gap-2 items-center flex-wrap justify-end">
               <Badge padding={1.5} rounded={'md'} colorScheme="green">{job.jobType}</Badge>
-              <Share2 />
+              <Share2 onClick={handleShare} cursor={'pointer'} />
             </Box>
 
           </Heading>

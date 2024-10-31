@@ -8,7 +8,7 @@ import {
 } from "../controller/company/authController.js";
 import { protectCompany } from "../middleware/protectCompany.js";
 import { createInterview } from "../controller/company/interviewController.js";
-import { postJob } from "../controller/company/jobController.js";
+import { getAppliedUsers, postJob } from "../controller/company/jobController.js";
 import { postInternship } from "../controller/company/internshipController.js";
 
 
@@ -21,6 +21,8 @@ router.get("/auth/checkAuth",protectCompany, checkAuth);
 router.post("/auth/logout", logout);
 router.post("/auth/sendOtp", sendOTP);
 router.post("/auth/verifyOtp", verifyOtp);
+
+router.get("/job/getApplied",protectCompany,getAppliedUsers);
 
 router.post("/interview/create",protectCompany, createInterview);
 router.post("/job/post",protectCompany,postJob);

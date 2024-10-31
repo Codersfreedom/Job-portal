@@ -1,5 +1,6 @@
 import { Box, Button, Stack, Text } from '@chakra-ui/react'
 import { Cloud } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 const NoContentUI = ({ui}) => {
   return (
@@ -12,7 +13,7 @@ const NoContentUI = ({ui}) => {
       </Stack>
       <Button
         colorScheme="blue"
-      >Search {ui}</Button>
+      ><Link to={`/${ui}`}>Search {ui} </Link></Button>
     </Stack>
 
   </Box>
