@@ -6,7 +6,7 @@ import { Link } from "react-router-dom"
 
 const AppliedCard = ({ job,ui }) => {
   const buttonSize = useBreakpointValue(['xs', 'md'])
-  const baseUrl = window.location.hostname;
+  
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({

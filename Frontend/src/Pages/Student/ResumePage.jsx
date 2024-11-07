@@ -1,22 +1,56 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import Header from '../../Components/Header'
 import LeftSideBar from '../../Components/LeftSideBar'
 import { Avatar, Box, Button, Flex, Icon, Stack, Tag, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react'
-import { ArrowRight, Bird, Book, Download, Edit2, Link, PackagePlusIcon, Plus } from 'lucide-react'
-
+import { ArrowRight, Bird, Book, Camera, Download, Edit2, Link, PackagePlusIcon, Plus } from 'lucide-react'
+import './Resume.css';
+import toast from 'react-hot-toast'
 const ResumePage = () => {
     const [menu, setMenu] = useState('education');
+    const [image, setImage] = useState(null);
 
+    const imageInputRef = useRef();
     const { colorMode } = useColorMode()
 
     const buttonSize = useBreakpointValue(['sm', 'md'])
+
+
+    const handleSelectImage = (e) => {
+
+        const maxSize = 2 * 1024 * 1024;
+
+        const file = e.target.files[0];
+
+        if (file && file.type.startsWith('image/')) {
+            if (file.size > maxSize) {
+                return toast.error("Image size must be less than 2mb");
+
+            }
+
+            const fileReader = new FileReader();
+
+            fileReader.onloadend = () => {
+                setImage(fileReader.result);
+            }
+
+            fileReader.readAsDataURL(file);
+        } else {
+            setImage(null);
+            return toast.error("Please select a valid image file")
+        }
+    }
+
     return (
         <Box className='grid-layout'>
             <Header />
             <LeftSideBar />
             <Stack className='main p-5 md:p-10 max-w-screen-xl'>
-                <Box className={`flex flex-col md:flex-row items-center gap-10 w-full mt-10 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'}  p-10 rounded-lg`}>
-                    <Avatar name='Rakesh Manna' size={'xl'} />
+                <Box className={` flex flex-col md:flex-row items-center gap-10 w-full mt-10 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'}  p-10 rounded-lg`}>
+                    <Box className='relative '>
+                        <Avatar onClick={() => imageInputRef.current.click()} name='Rakesh Manna' src={image} size={'xl'} className='avatar' />
+                        <input type="file" onChange={handleSelectImage} className='hidden' ref={imageInputRef} />
+
+                    </Box>
                     <Box className='text-center md:text-start'>
                         <Text className='text-2xl font-extrabold'>Rakesh Manna</Text>
                         <Text className='text-xl font-normal'>Full Stack Developer</Text>
@@ -28,14 +62,29 @@ const ResumePage = () => {
                     </Box>
 
                 </Box>
-                <Box className='max-w-full overflow-x-scroll md:overflow-hidden flex gap-10 p-5 text-nowrap text-md md:text-xl font-thin '>
-                    <Text onClick={() => setMenu('education')} className={`${menu === 'education' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Education</Text>
-                    <Text onClick={() => setMenu('projects')} className={`${menu === 'projects' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer`}>Projects</Text>
-                    <Text onClick={() => setMenu('work_experience')} className={`${menu === 'work_experience' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Work Experience </Text>
-                    <Text onClick={() => setMenu('achievements')} className={`${menu === 'achievements' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Achievements</Text>
-                    <Text onClick={() => setMenu('certiffications')} className={`${menu === 'certiffications' && 'border-b-2 border-blue-600 text-blue-500'} cursor-pointer ease-in-out duration-300`}>Certiffications</Text>
+                <ul className='max-w-full overflow-x-scroll md:overflow-hidden flex gap-10 p-5 text-nowrap text-md md:text-xl font-medium '>
+                    <li>
+                        <Text onClick={() => setMenu('education')} className={`${menu === 'education' && ' text-blue-800 border-b-2 border-b-[#2563eb]'} menu cursor-pointer ease-in-out duration-300 `}>Education</Text>
 
-                </Box>
+                    </li>
+                    <li>
+
+                        <Text onClick={() => setMenu('projects')} className={`${menu === 'projects' && ' text-blue-500 border-b-2 border-b-[#2563eb]'} menu cursor-pointer`}>Projects</Text>
+                    </li>
+                    <li>
+
+                        <Text onClick={() => setMenu('work_experience')} className={`${menu === 'work_experience' && ' text-blue-500 border-b-2 border-b-[#2563eb]'} menu cursor-pointer ease-in-out duration-300`}>Work Experience </Text>
+                    </li>
+                    <li>
+                        <Text onClick={() => setMenu('achievements')} className={`${menu === 'achievements' && ' text-blue-500 border-b-2 border-b-[#2563eb]'} menu cursor-pointer ease-in-out duration-300`}>Achievements</Text>
+
+                    </li>
+                    <li>
+
+                        <Text onClick={() => setMenu('certiffications')} className={`${menu === 'certiffications' && 'text-blue-500 border-b-2 border-b-[#2563eb]'} menu cursor-pointer ease-in-out duration-300`}>Certiffications</Text>
+                    </li>
+
+                </ul>
 
 
                 <Stack className='w-full'>
@@ -46,13 +95,16 @@ const ResumePage = () => {
                             <Stack className='w-full'>
                                 <Box className='flex gap-3 justify-between items-center w-full'>
 
-                                    <Icon fontSize={'4xl'} >
-                                        <PackagePlusIcon />
-                                    </Icon>
-                                    <Stack gap={1} >
-                                        <Text>Add Education Details</Text>
-                                        <Text>Your school/college details</Text>
-                                    </Stack>
+                                    <Box className='flex gap-3'>
+                                        <Icon fontSize={'4xl'} alignSelf={'center'} >
+                                            <PackagePlusIcon />
+                                        </Icon>
+                                        <Stack gap={1} >
+                                            <Text>Add Education Details</Text>
+                                            <Text>Your school/college details</Text>
+                                        </Stack>
+                                    </Box>
+
 
                                     <Box>
                                         <Button variant={'outline'} size={buttonSize} colorScheme='blue' leftIcon={<Plus size={'20px'} />} className='ml-auto justify-self-end' >
@@ -79,7 +131,7 @@ const ResumePage = () => {
 
                                     <Box>
                                         <Button variant={'outline'} size={buttonSize} leftIcon={<Edit2 size={'15px'} />} colorScheme='blue'>
-                                            New
+                                            Edit
                                         </Button>
                                     </Box>
 
@@ -97,13 +149,17 @@ const ResumePage = () => {
                             <Stack className='w-full'>
                                 <Box className='flex gap-3 justify-between items-center w-full'>
 
-                                    <Icon fontSize={'4xl'} >
-                                        <PackagePlusIcon />
-                                    </Icon>
-                                    <Stack gap={1} >
-                                        <Text>Add Projext Details</Text>
-                                        <Text>Projexts that you have worked on before</Text>
-                                    </Stack>
+                                    <Box className='flex gap-3 '>
+                                        <Icon fontSize={'4xl'} alignSelf={'center'} >
+                                            <PackagePlusIcon />
+                                        </Icon>
+                                        <Stack gap={1} >
+                                            <Text>Add Projext Details</Text>
+                                            <Text>Projexts that you have worked on before</Text>
+                                        </Stack>
+                                    </Box>
+
+
 
                                     <Box>
                                         <Button variant={'outline'} size={buttonSize} colorScheme='blue' leftIcon={<Plus size={'20px'} />} className='ml-auto justify-self-end' >
@@ -172,14 +228,16 @@ const ResumePage = () => {
                         <>
                             <Stack className='w-full'>
                                 <Box className='flex gap-3 items-center justify-between w-full'>
+                                    <Box className='flex gap-3'>
+                                        <Icon fontSize={'4xl'} alignSelf={'center'} >
+                                            <PackagePlusIcon />
+                                        </Icon>
+                                        <Stack gap={1} >
+                                            <Text>Add Work Experience</Text>
+                                            <Text>Your previous internship / full time experiences</Text>
+                                        </Stack>
+                                    </Box>
 
-                                    <Icon fontSize={'4xl'} >
-                                        <PackagePlusIcon />
-                                    </Icon>
-                                    <Stack gap={1} >
-                                        <Text>Add Work Experience</Text>
-                                        <Text>Your previous internship / full time experiences</Text>
-                                    </Stack>
 
                                     <Box>
                                         <Button variant={'outline'} size={buttonSize} colorScheme='blue' leftIcon={<Plus size={'20px'} />} className='ml-auto justify-self-end' >
@@ -277,15 +335,18 @@ const ResumePage = () => {
                         <>
                             <Stack className='w-full '>
                                 <Box className='flex items-center justify-between gap-3 w-full p-2 '>
-                                    <Box>
+                                    <Box className='flex gap-3'>
+                                        <Icon alignSelf={'center'} fontSize={'4xl'}>
+                                            <Book />
 
-                                        <Book />
+                                        </Icon>
+                                        <Stack gap={1} className=' ' >
+                                            <Text>Add Achievements <br />/Extracurricular Activity</Text>
+                                            <Text>Add your achievements of Hackathons, NGO services, Exam ranks, Clubs, etc.</Text>
+                                        </Stack>
                                     </Box>
 
-                                    <Stack gap={1} className='flex-wrap ' >
-                                        <Text>Add Achievements <br />/Extracurricular Activity</Text>
-                                        <Text>Add your achievements of Hackathons, NGO services, Exam ranks, Clubs, etc.</Text>
-                                    </Stack>
+
                                     <Box >
                                         <Button
                                             variant={'outline'}
@@ -329,15 +390,18 @@ const ResumePage = () => {
                         <>
                             <Stack className='w-full'>
                                 <Box className='flex items-center justify-between gap-3 w-full p-2 '>
-                                    <Box>
+                                    <Box className='flex gap-3'>
+                                        <Icon alignSelf={'center'} fontSize={'4xl'}>
+                                            <Book />
 
-                                        <Book />
+                                        </Icon>
+                                        <Stack className='flex-1'>
+                                            <Text>Add Certificate/Course Details</Text>
+                                            <Text>Add your achievements of Hackathons, NGO services, Exam ranks, Clubs, etc.</Text>
+                                        </Stack>
                                     </Box>
 
-                                    <Stack>
-                                        <Text>Add Certificate/Course Details</Text>
-                                        <Text>Add your achievements of Hackathons, NGO services, Exam ranks, Clubs, etc.</Text>
-                                    </Stack>
+
                                     <Box>
                                         <Button
                                             variant={'outline'}
