@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Header from '../../Components/Header'
 import LeftSideBar from '../../Components/LeftSideBar'
 import { Avatar, Box, Button, Flex, FormControl, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Tag, TagCloseButton, TagLabel, Text, Textarea, useBreakpointValue, useColorMode, useDisclosure } from '@chakra-ui/react'
@@ -6,17 +6,38 @@ import { ArrowDownSquare, ArrowRight, Bird, Book, Camera, Download, Edit2, Link,
 import './Resume.css';
 import toast from 'react-hot-toast'
 import EditModal from '../../Components/EditModal'
+import useResumeStore from '../../store/student/useResumeStore'
+import Spinner from '../../Components/LoadingSpinner'
 const ResumePage = () => {
+    const { colorMode } = useColorMode()
+    const buttonSize = useBreakpointValue(['sm', 'md'])
+    const textAlign = useBreakpointValue(['center', 'start'])
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
+    const { isOpen: isNewProjectOpen, onOpen: onNewProjectOpen, onClose: onNewProjectClose } = useDisclosure()
+    const { isOpen: isNewWorkExp, onOpen: onNewWorkExpOpen, onClose: onNewWorkExpClose } = useDisclosure()
+    const { isOpen: isNewCertificate, onOpen: onNewCertificateOpen, onClose: onNewCertificateClose } = useDisclosure()
+
     const [menu, setMenu] = useState('education');
-    const [image, setImage] = useState(null);
     const [isInputDisabled, setIsInputDisabled] = useState(true);
+    const { resume, updateProfile, getResume, isLoading } = useResumeStore()
+
+    useEffect(() => {
+        getResume();
+    }, []);
+
+
     const [profileData, setProfileData] = useState({
-        name: 'Rakesh Manna',
-        domain: "Full Stack Developer",
-        college: "Neotia Instituite of Technologoy Management and Scienence",
-        batch: 2024 + ' Pass out',
-        image: image
+        full_name: resume && resume.full_name,
+        domain: resume && resume.domain,
+        institute: resume && resume.institute,
+        batch: resume && resume.batch,
+        image: null
     });
+
+    console.log(resume)
+
+
 
     const education = {
         college: "Makaut",
@@ -37,14 +58,15 @@ const ResumePage = () => {
     const imageInputRef = useRef();
 
 
-    const { colorMode } = useColorMode()
-    const buttonSize = useBreakpointValue(['sm', 'md'])
-    const textAlign = useBreakpointValue(['center', 'start'])
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
-    const { isOpen: isNewProjectOpen, onOpen: onNewProjectOpen, onClose: onNewProjectClose } = useDisclosure()
-    const { isOpen: isNewWorkExp, onOpen: onNewWorkExpOpen, onClose: onNewWorkExpClose } = useDisclosure()
-    const { isOpen: isNewCertificate, onOpen: onNewCertificateOpen, onClose: onNewCertificateClose } = useDisclosure()
+
+
+
+
+
+
+
+
+
 
     const handleSelectImage = (e) => {
 
@@ -61,12 +83,13 @@ const ResumePage = () => {
             const fileReader = new FileReader();
 
             fileReader.onloadend = () => {
-                setImage(fileReader.result);
+
+                setProfileData({ ...profileData, image: fileReader.result });
             }
 
             fileReader.readAsDataURL(file);
         } else {
-            setImage(null);
+            setProfileData({ ...profileData, image: null });
             return toast.error("Please select a valid image file")
         }
     }
@@ -75,9 +98,16 @@ const ResumePage = () => {
 
         //    TODO:Save data in database
 
-        setIsInputDisabled(true);
+        updateProfile(profileData);
+        if (!isLoading) {
+            setIsInputDisabled(true);
+
+        }
 
     }
+
+    if(isLoading) return<Spinner />;
+   
     return (
         <Box className='grid-layout'>
             <Header />
@@ -85,51 +115,62 @@ const ResumePage = () => {
             <Stack className='main p-5 md:p-10 max-w-screen-xl'>
                 <Box className={` flex flex-col md:flex-row items-center gap-10 w-full mt-10 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'}  p-10 rounded-lg`}>
                     <Box className='relative '>
-                        <Avatar onClick={() => imageInputRef.current.click()} name='Rakesh Manna' src={image} size={'xl'} className='avatar' />
+                        <Avatar onClick={() => imageInputRef.current.click()} name='Rakesh Manna' src={ profileData.image ? profileData.image:resume?.image } size={'xl'} className='avatar' />
                         <input type="file" onChange={handleSelectImage} className='hidden' ref={imageInputRef} />
 
                     </Box>
-                    <Box className='text-center md:text-start'>
-                        <Input
-                            fontSize={'2xl'}
-                            textAlign={textAlign}
-                            fontWeight={'extrabold'}
-                            value={profileData.name}
-                            onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
-                            variant={'flushed'}
-                            disabled={isInputDisabled}
-                            _disabled={'#fff'}
-                            border={isInputDisabled && 'none'} />
+                    <Box className='text-center md:text-start '>
 
-                        <Input
-                            fontSize={'xl'}
-                            onChange={(e) => setProfileData({ ...profileData, domain: e.target.value })}
-                            textAlign={textAlign}
-                            fontWeight={'bold'}
-                            value={profileData.domain}
-                            variant={'flushed'}
-                            disabled={isInputDisabled}
-                            _disabled={'#fff'}
-                            border={isInputDisabled && 'none'} />
 
-                        <Input
-                            fontSize={'xl'}
-                            onChange={(e) => setProfileData({ ...profileData, college: e.target.value })} textAlign={textAlign}
-                            fontWeight={'semibold'}
-                            value={profileData.college}
-                            variant={'flushed'}
-                            disabled={isInputDisabled}
-                            _disabled={'#fff'}
-                            border={isInputDisabled && 'none'} />
+                        <Box>
 
-                        <Input fontWeight={'medium'}
-                            onChange={(e) => setProfileData({ ...profileData, batch: e.target.value })}
-                            textAlign={textAlign}
-                            value={profileData.batch}
-                            variant={'flushed'}
-                            disabled={isInputDisabled}
-                            _disabled={'#fff'}
-                            border={isInputDisabled && 'none'} />
+
+                            <Input
+                                fontSize={'2xl'}
+                                textAlign={textAlign}
+                                fontWeight={'extrabold'}
+                                name='full_name'
+                                onChange={(e) => setProfileData({ ...profileData, full_name: e.target.value })}
+                                value={profileData.full_name || resume?.full_name}
+                                variant={'flushed'}
+                                disabled={isInputDisabled}
+                                _disabled={'#fff'}
+                                border={isInputDisabled && 'none'} />
+
+                            <Input
+                                fontSize={'xl'}
+                                name='domain'
+                                value={profileData.domain || resume?.domain}
+                                textAlign={textAlign}
+                                fontWeight={'bold'}
+                                onChange={(e) => setProfileData({ ...profileData, domain: e.target.value })}
+                                variant={'flushed'}
+                                disabled={isInputDisabled}
+                                _disabled={'#fff'}
+                                border={isInputDisabled && 'none'} />
+
+                            <Input
+                                fontSize={'xl'}
+                                name='institute'
+                                value={profileData.institute ||resume?.institute}
+                                fontWeight={'semibold'}
+                                onChange={(e) => setProfileData({ ...profileData, institute: e.target.value })}
+                                variant={'flushed'}
+                                disabled={isInputDisabled}
+                                _disabled={'#fff'}
+                                border={isInputDisabled && 'none'} />
+
+                            <Input fontWeight={'medium'}
+                                name='batch'
+                                onChange={(e) => setProfileData({ ...profileData, batch: e.target.value })}
+                                textAlign={textAlign}
+                                value={profileData?.batch || resume?.batch}
+                                variant={'flushed'}
+                                disabled={isInputDisabled}
+                                _disabled={'#fff'}
+                                border={isInputDisabled && 'none'} />
+
+                        </Box>
 
 
 
@@ -137,13 +178,15 @@ const ResumePage = () => {
                     <Box className='flex flex-col md:flex-row gap-5'>
                         {
                             isInputDisabled ? <Button
-                                onClick={() => { setIsInputDisabled(!isInputDisabled) }}
+                                type='button'
+                                onClick={(e) => { e.preventDefault(); setIsInputDisabled(!isInputDisabled) }}
                                 size={buttonSize}
                                 rightIcon={<Edit2 size={'18px'} />}
                                 colorScheme='blue'>Edit</Button> :
 
                                 <Button
                                     onClick={handleSaveProfile}
+                                    isLoading={isLoading}
                                     size={buttonSize}
                                     rightIcon={<Save size={'18px'} />}
                                     colorScheme='blue'>Save

@@ -1,3 +1,4 @@
+import Resume from "../../models/Resume.js";
 import Student from "../../models/Student.js";
 import generateTokenAndSetCookie from "../../utils/generateTokenAndSetCookie.js";
 
@@ -25,6 +26,13 @@ export const signup = async (req, res) => {
         ...contact,
       },
     });
+
+    await Resume.create({
+      userId:newStudent._id,
+      full_name:name,
+
+    })
+
 
     generateTokenAndSetCookie(res, newStudent._id);
     return res

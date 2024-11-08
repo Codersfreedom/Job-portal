@@ -5,6 +5,9 @@ const resumeSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student",
   },
+  image:{
+    type:String,
+  },
   full_name: {
     type: String,
     required: true,
@@ -12,7 +15,7 @@ const resumeSchema = mongoose.Schema({
   domain: {
     type: String,
   },
-  instituite: {
+  institute: {
     type: String,
   },
   batch: {
