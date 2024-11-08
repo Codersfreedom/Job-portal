@@ -162,9 +162,9 @@ const resumeSchema = mongoose.Schema({
       work_type: {
         type: String,
       },
-      features: {
-        type: Array,
-        default: [],
+      details: {
+        type: String,
+        
       },
       links: {
         github: {
@@ -178,7 +178,7 @@ const resumeSchema = mongoose.Schema({
       name: {
         type: String,
       },
-      features: {
+      details: {
         type: Array,
         default: [],
       },

@@ -1,19 +1,50 @@
 import { useRef, useState } from 'react'
 import Header from '../../Components/Header'
 import LeftSideBar from '../../Components/LeftSideBar'
-import { Avatar, Box, Button, Flex, Icon, Stack, Tag, Text, useBreakpointValue, useColorMode } from '@chakra-ui/react'
-import { ArrowRight, Bird, Book, Camera, Download, Edit2, Link, PackagePlusIcon, Plus } from 'lucide-react'
+import { Avatar, Box, Button, Flex, FormControl, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Tag, TagCloseButton, TagLabel, Text, Textarea, useBreakpointValue, useColorMode, useDisclosure } from '@chakra-ui/react'
+import { ArrowDownSquare, ArrowRight, Bird, Book, Camera, Download, Edit2, Link, PackagePlusIcon, Plus, Save, Trash } from 'lucide-react'
 import './Resume.css';
 import toast from 'react-hot-toast'
+import EditModal from '../../Components/EditModal'
 const ResumePage = () => {
     const [menu, setMenu] = useState('education');
     const [image, setImage] = useState(null);
+    const [isInputDisabled, setIsInputDisabled] = useState(true);
+    const [profileData, setProfileData] = useState({
+        name: 'Rakesh Manna',
+        domain: "Full Stack Developer",
+        college: "Neotia Instituite of Technologoy Management and Scienence",
+        batch: 2024 + ' Pass out',
+        image: image
+    });
+
+    const education = {
+        college: "Makaut",
+        location: "WB",
+        degree: "B.Tech",
+        stream: "CSE",
+        marks: {
+            mark: 8.9,
+            unit: "CGPA"
+        },
+        unit: "CGPA",
+        batch: {
+            start: 2020,
+            end: 2024
+        }
+    }
 
     const imageInputRef = useRef();
+
+
     const { colorMode } = useColorMode()
-
     const buttonSize = useBreakpointValue(['sm', 'md'])
-
+    const textAlign = useBreakpointValue(['center', 'start'])
+    const { isOpen, onOpen, onClose } = useDisclosure()
+    const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure()
+    const { isOpen: isNewProjectOpen, onOpen: onNewProjectOpen, onClose: onNewProjectClose } = useDisclosure()
+    const { isOpen: isNewWorkExp, onOpen: onNewWorkExpOpen, onClose: onNewWorkExpClose } = useDisclosure()
+    const { isOpen: isNewCertificate, onOpen: onNewCertificateOpen, onClose: onNewCertificateClose } = useDisclosure()
 
     const handleSelectImage = (e) => {
 
@@ -40,6 +71,13 @@ const ResumePage = () => {
         }
     }
 
+    const handleSaveProfile = () => {
+
+        //    TODO:Save data in database
+
+        setIsInputDisabled(true);
+
+    }
     return (
         <Box className='grid-layout'>
             <Header />
@@ -52,12 +90,69 @@ const ResumePage = () => {
 
                     </Box>
                     <Box className='text-center md:text-start'>
-                        <Text className='text-2xl font-extrabold'>Rakesh Manna</Text>
-                        <Text className='text-xl font-normal'>Full Stack Developer</Text>
-                        <Text className='font-light'>Neotia Instituite of Technologoy Management and Scienence <span>2024 Pass out</span></Text>
+                        <Input
+                            fontSize={'2xl'}
+                            textAlign={textAlign}
+                            fontWeight={'extrabold'}
+                            value={profileData.name}
+                            onChange={(e) => setProfileData({ ...profileData, name: e.target.value })}
+                            variant={'flushed'}
+                            disabled={isInputDisabled}
+                            _disabled={'#fff'}
+                            border={isInputDisabled && 'none'} />
+
+                        <Input
+                            fontSize={'xl'}
+                            onChange={(e) => setProfileData({ ...profileData, domain: e.target.value })}
+                            textAlign={textAlign}
+                            fontWeight={'bold'}
+                            value={profileData.domain}
+                            variant={'flushed'}
+                            disabled={isInputDisabled}
+                            _disabled={'#fff'}
+                            border={isInputDisabled && 'none'} />
+
+                        <Input
+                            fontSize={'xl'}
+                            onChange={(e) => setProfileData({ ...profileData, college: e.target.value })} textAlign={textAlign}
+                            fontWeight={'semibold'}
+                            value={profileData.college}
+                            variant={'flushed'}
+                            disabled={isInputDisabled}
+                            _disabled={'#fff'}
+                            border={isInputDisabled && 'none'} />
+
+                        <Input fontWeight={'medium'}
+                            onChange={(e) => setProfileData({ ...profileData, batch: e.target.value })}
+                            textAlign={textAlign}
+                            value={profileData.batch}
+                            variant={'flushed'}
+                            disabled={isInputDisabled}
+                            _disabled={'#fff'}
+                            border={isInputDisabled && 'none'} />
+
+
+
                     </Box>
                     <Box className='flex flex-col md:flex-row gap-5'>
-                        <Button size={buttonSize} rightIcon={<Edit2 size={'18px'} />} colorScheme='blue'>Edit</Button>
+                        {
+                            isInputDisabled ? <Button
+                                onClick={() => { setIsInputDisabled(!isInputDisabled) }}
+                                size={buttonSize}
+                                rightIcon={<Edit2 size={'18px'} />}
+                                colorScheme='blue'>Edit</Button> :
+
+                                <Button
+                                    onClick={handleSaveProfile}
+                                    size={buttonSize}
+                                    rightIcon={<Save size={'18px'} />}
+                                    colorScheme='blue'>Save
+                                </Button>
+
+
+
+                        }
+
                         <Button size={buttonSize} rightIcon={<Download />} colorScheme='blue'>Download Resume</Button>
                     </Box>
 
@@ -107,7 +202,13 @@ const ResumePage = () => {
 
 
                                     <Box>
-                                        <Button variant={'outline'} size={buttonSize} colorScheme='blue' leftIcon={<Plus size={'20px'} />} className='ml-auto justify-self-end' >
+                                        <Button
+                                            onClick={onOpen}
+                                            variant={'outline'}
+                                            size={buttonSize}
+                                            colorScheme='blue'
+                                            leftIcon={<Plus size={'20px'} />}
+                                            className='ml-auto justify-self-end' >
                                             Add new
                                         </Button>
                                     </Box>
@@ -130,11 +231,16 @@ const ResumePage = () => {
                                     </Box>
 
                                     <Box>
-                                        <Button variant={'outline'} size={buttonSize} leftIcon={<Edit2 size={'15px'} />} colorScheme='blue'>
+                                        <Button
+                                            onClick={onEditOpen}
+                                            variant={'outline'}
+                                            size={buttonSize}
+                                            leftIcon={<Edit2 size={'15px'} />}
+                                            colorScheme='blue'>
                                             Edit
                                         </Button>
                                     </Box>
-
+                                    <EditModal education={education} isOpen={isEditOpen} onClose={onEditClose} />
 
 
                                 </Box>
@@ -142,6 +248,70 @@ const ResumePage = () => {
 
 
                             </Stack>
+
+                            <>
+
+
+                                <Modal
+
+                                    isOpen={isOpen}
+                                    onClose={onClose}
+
+                                >
+                                    <ModalOverlay />
+                                    <ModalContent>
+                                        <ModalHeader>Add Education details</ModalHeader>
+                                        <ModalCloseButton />
+                                        <ModalBody pb={6}>
+                                            <FormControl mb={4}>
+                                                <FormLabel>Education</FormLabel>
+                                                <Select icon={<ArrowDownSquare />} >
+                                                    <option value="secondary">Secondary</option>
+                                                    <option value="higher_secondary">Higher Secondary</option>
+                                                    <option value="graduation">Graduation</option>
+                                                    <option value="post_graduation">Post Graduation</option>
+                                                </Select>
+                                            </FormControl>
+                                            <FormControl>
+                                                <FormLabel>School/College name</FormLabel>
+                                                <Input placeholder='School/College name' />
+                                            </FormControl>
+
+                                            <FormControl mt={4}>
+                                                <FormLabel>Location</FormLabel>
+                                                <Input placeholder='Location' />
+                                            </FormControl>
+                                            <FormControl mt={4}>
+                                                <FormLabel>Stream</FormLabel>
+                                                <Input placeholder='CSE' />
+                                            </FormControl>
+                                            <FormControl mt={4}>
+                                                <FormLabel>Marks</FormLabel>
+                                                <Input placeholder='8.9 or 80%' />
+                                            </FormControl>
+                                            <FormControl mt={4}>
+                                                <FormLabel>Marks Unit</FormLabel>
+                                                <Select icon={<ArrowDownSquare />} >
+                                                    <option value="cgpa">CGPA</option>
+                                                    <option value="sgpa">SGPA</option>
+                                                    <option value="percentage">Percentage</option>
+
+                                                </Select>
+                                            </FormControl>
+                                        </ModalBody>
+
+                                        <ModalFooter>
+                                            <Button colorScheme='blue' mr={3}>
+                                                Save
+                                            </Button>
+                                            <Button onClick={onClose}>Cancel</Button>
+                                        </ModalFooter>
+                                    </ModalContent>
+                                </Modal>
+                            </>
+
+
+
                         </>}
 
                     {menu === 'projects' &&
@@ -162,7 +332,13 @@ const ResumePage = () => {
 
 
                                     <Box>
-                                        <Button variant={'outline'} size={buttonSize} colorScheme='blue' leftIcon={<Plus size={'20px'} />} className='ml-auto justify-self-end' >
+                                        <Button
+                                            onClick={onNewProjectOpen}
+                                            variant={'outline'}
+                                            size={buttonSize}
+                                            colorScheme='blue'
+                                            leftIcon={<Plus size={'20px'} />}
+                                            className='ml-auto justify-self-end' >
                                             Add new
                                         </Button>
                                     </Box>
@@ -187,18 +363,64 @@ const ResumePage = () => {
                                     </Box>
 
                                     <Box>
-                                        <Button variant={'outline'} size={buttonSize} leftIcon={<Edit2 size={'15px'} />} colorScheme='blue'>
-                                            New
+                                        <Button variant={'outline'} size={buttonSize} leftIcon={<Trash size={'15px'} />} colorScheme='blue'>
+                                            Delete
                                         </Button>
                                     </Box>
 
+                                    <>
 
+
+                                        <Modal
+
+                                            isOpen={isNewProjectOpen}
+                                            onClose={onNewProjectClose}
+
+                                        >
+                                            <ModalOverlay />
+                                            <ModalContent>
+                                                <ModalHeader>Add New Project</ModalHeader>
+                                                <ModalCloseButton />
+                                                <ModalBody pb={6}>
+                                                    <FormControl mb={4}>
+                                                        <FormLabel>Project Name</FormLabel>
+                                                        <Input type='text' placeholder='ex: stack-overflow-clone' />
+                                                    </FormControl>
+                                                    <Tag
+                                                        size={'md'}
+                                                        borderRadius='full'
+                                                        variant='solid'
+                                                        colorScheme='blue'
+                                                    >
+                                                        <TagLabel>blue</TagLabel>
+                                                        <TagCloseButton />
+                                                    </Tag>
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Features</FormLabel>
+                                                        <Input placeholder='School/College name' />
+                                                    </FormControl>
+
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Github Link</FormLabel>
+                                                        <Input placeholder='Link' />
+                                                    </FormControl>
+
+                                                </ModalBody>
+
+                                                <ModalFooter>
+                                                    <Button colorScheme='blue' mr={3}>
+                                                        Save
+                                                    </Button>
+                                                    <Button onClick={onNewProjectClose}>Cancel</Button>
+                                                </ModalFooter>
+                                            </ModalContent>
+                                        </Modal>
+                                    </>
 
                                 </Box>
                                 <Stack className='p-5' gap={3}>
                                     <Box className='flex flex-col md:flex-row  gap-5 py-5'>
                                         <Button size={buttonSize} variant={'outline'} colorScheme='blue' rightIcon={<ArrowRight />}> <a href='#' target='_blank'>View Project</a></Button>
-                                        <Button size={buttonSize} colorScheme='blue' rightIcon={<Link />} >Add Link</Button>
 
                                     </Box>
 
@@ -240,12 +462,81 @@ const ResumePage = () => {
 
 
                                     <Box>
-                                        <Button variant={'outline'} size={buttonSize} colorScheme='blue' leftIcon={<Plus size={'20px'} />} className='ml-auto justify-self-end' >
+                                        <Button
+                                            onClick={onNewWorkExpOpen}
+                                            variant={'outline'}
+                                            size={buttonSize} colorScheme='blue'
+                                            leftIcon={<Plus size={'20px'} />}
+                                            className='ml-auto justify-self-end' >
                                             Add new
                                         </Button>
                                     </Box>
 
+                                    <>
 
+
+                                        <Modal
+
+                                            isOpen={isNewWorkExp}
+                                            onClose={onNewWorkExpClose}
+
+                                        >
+                                            <ModalOverlay />
+                                            <ModalContent>
+                                                <ModalHeader>Add New Work Experience</ModalHeader>
+                                                <ModalCloseButton />
+                                                <ModalBody pb={6}>
+                                                    <FormControl mb={4}>
+                                                        <FormLabel>Organization name</FormLabel>
+                                                        <Input type='text' placeholder='Type organization name' />
+                                                    </FormControl>
+                                                    <FormControl mb={4}>
+                                                        <FormLabel>Start date</FormLabel>
+                                                        <Input type='date' />
+                                                    </FormControl>
+                                                    <FormControl mb={4}>
+                                                        <FormLabel>End date</FormLabel>
+                                                        <Input type='date' />
+                                                    </FormControl>
+                                                    <Tag
+                                                        size={'md'}
+                                                        borderRadius='full'
+                                                        variant='solid'
+                                                        colorScheme='blue'
+                                                    >
+                                                        <TagLabel>blue</TagLabel>
+                                                        <TagCloseButton />
+                                                    </Tag>
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Details</FormLabel>
+                                                        <Textarea placeholder='Type works experice details' />
+                                                    </FormControl>
+
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Work type</FormLabel>
+                                                        <Select>
+                                                            <option value="remote">Remote</option>
+                                                            <option value="in-office">In office</option>
+                                                        </Select>
+                                                    </FormControl>
+
+
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Website Link</FormLabel>
+                                                        <Input placeholder='Link' />
+                                                    </FormControl>
+
+                                                </ModalBody>
+
+                                                <ModalFooter>
+                                                    <Button colorScheme='blue' mr={3}>
+                                                        Save
+                                                    </Button>
+                                                    <Button onClick={onNewWorkExpClose}>Cancel</Button>
+                                                </ModalFooter>
+                                            </ModalContent>
+                                        </Modal>
+                                    </>
 
                                 </Box>
                             </Stack>
@@ -262,8 +553,8 @@ const ResumePage = () => {
                                         <Stack >
                                             <Box className='flex justify-between '>
                                                 <Text className='text-sm md:text-xl  font-bold'>StackOverFlow Clone <Link size={'20px'} className='inline text-blue-500 ml-2 cursor-pointer' /> </Text>
-                                                <Button variant={'outline'} size={'xs'} leftIcon={<Plus size={'15px'} className='hidden md:block ' />} colorScheme='blue'>
-                                                    New
+                                                <Button variant={'outline'} size={'xs'} leftIcon={<Trash size={'15px'} className='hidden md:block ' />} colorScheme='blue'>
+                                                    Delete
                                                 </Button>
                                             </Box>
 
@@ -404,6 +695,7 @@ const ResumePage = () => {
 
                                     <Box>
                                         <Button
+                                            onClick={onNewCertificateOpen}
                                             variant={'outline'}
                                             colorScheme='blue'
                                             size={buttonSize}
@@ -413,6 +705,61 @@ const ResumePage = () => {
                                         </Button>
                                     </Box>
 
+                                    <>
+
+
+                                        <Modal
+
+                                            isOpen={isNewCertificate}
+                                            onClose={onNewCertificateClose}
+
+                                        >
+                                            <ModalOverlay />
+                                            <ModalContent>
+                                                <ModalHeader>Add New Certificate</ModalHeader>
+                                                <ModalCloseButton />
+                                                <ModalBody pb={6}>
+                                                    <FormControl mb={4}>
+                                                        <FormLabel>Certificate Name</FormLabel>
+                                                        <Input type='text' placeholder='ex: stack-overflow-clone' />
+                                                    </FormControl>
+                                                    <Tag
+                                                        size={'md'}
+                                                        borderRadius='full'
+                                                        variant='solid'
+                                                        colorScheme='blue'
+                                                    >
+                                                        <TagLabel>blue</TagLabel>
+                                                        <TagCloseButton />
+                                                    </Tag>
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Details</FormLabel>
+                                                        <Input placeholder='Certificate details' />
+                                                    </FormControl>
+                                                    <FormControl>
+                                                        <FormLabel>Start date</FormLabel>
+                                                        <Input type='date' />
+                                                    </FormControl>
+                                                    <FormControl>
+                                                        <FormLabel>End date</FormLabel>
+                                                        <Input type='date' />
+                                                    </FormControl>
+                                                    <FormControl mt={4}>
+                                                        <FormLabel>Certificate link</FormLabel>
+                                                        <Input placeholder='Link' />
+                                                    </FormControl>
+
+                                                </ModalBody>
+
+                                                <ModalFooter>
+                                                    <Button colorScheme='blue' mr={3}>
+                                                        Save
+                                                    </Button>
+                                                    <Button onClick={onNewCertificateClose}>Cancel</Button>
+                                                </ModalFooter>
+                                            </ModalContent>
+                                        </Modal>
+                                    </>
 
                                 </Box>
 
@@ -423,8 +770,8 @@ const ResumePage = () => {
                                             colorScheme='blue'
                                             variant={'outline'}
                                             size={buttonSize}
-                                            leftIcon={<Edit2 size={'15px'} />}
-                                        >Edit</Button>
+                                            leftIcon={<Trash size={'15px'} />}
+                                        >Delete</Button>
                                     </Box>
                                     <Box>
                                         <li>Crack leaked password database</li>
