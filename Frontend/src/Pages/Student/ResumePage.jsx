@@ -22,35 +22,31 @@ const ResumePage = () => {
 
     const [menu, setMenu] = useState('education');
     const [image, setImage] = useState(null);
-    const { resume, updateProfile, getResume, isLoading } = useResumeStore()
+    const { resume, addEducation, getResume, isLoading } = useResumeStore()
+
+
+    const cancelBtn = useRef();
+
+    const [educationDetails, setEducationDetails] = useState({
+        educationType: "",
+        school: "",
+        stream: "",
+        location: "",
+        year: {
+            start: null,
+            end: null
+        },
+        marks: {
+            mark: null,
+            unit: ""
+        }
+    });
 
     useEffect(() => {
         getResume();
     }, []);
 
 
-
-
-    console.log(resume)
-
-
-
-
-    const education = {
-        college: "Makaut",
-        location: "WB",
-        degree: "B.Tech",
-        stream: "CSE",
-        marks: {
-            mark: 8.9,
-            unit: "CGPA"
-        },
-        unit: "CGPA",
-        batch: {
-            start: 2020,
-            end: 2024
-        }
-    }
 
     const imageInputRef = useRef();
 
@@ -81,10 +77,26 @@ const ResumePage = () => {
         }
     }
 
-    const handleSaveProfile = () => {
+    const handleAddNewEducation = () => {
 
         //    TODO:Save data in database
-
+        addEducation(educationDetails)
+        cancelBtn.current.click();
+        setEducationDetails({
+            educationType: "",
+            school: "",
+            stream: "",
+            location: "",
+            passout: null,
+            year: {
+                start: null,
+                end: null,
+            },
+            marks: {
+                mark: null,
+                unit: ""
+            }
+        })
 
 
     }
@@ -202,38 +214,47 @@ const ResumePage = () => {
 
                                 </Box>
                             </Stack>
-
-                            <Stack className={`w-full mt-5 py-5 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} rounded-lg`}>
-
-
-                                <Box className='flex justify-between px-3 '>
+                            {resume && resume.education?.map((edu,idx) => (
+                                <Stack key={idx} className={`w-full mt-5 py-5 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} rounded-lg`}>
 
 
-                                    <Box className='flex flex-col pr-1  '>
-                                        <Text>Maulana Abul Kalam Azad University of Technology, West Bengal</Text>
-                                        <Text>B.Tech,Computer Science Engineering (CSE) | 8.9 CGPA</Text>
-                                        <Text>2020-2024</Text>
+                                    <Box className='flex justify-between px-3 w-full '>
+
+
+
+
+
+                                        <Box className='flex flex-col pr-1 flex-nowrap'>
+                                            <Text className='text-xl'>{edu.educationType.charAt(0).toUpperCase() + edu.educationType.substring(1)}</Text>
+                                            <Text>{edu.school}, {edu.location}</Text>
+                                            <Text>{edu.stream.toUpperCase()}</Text>
+
+                                            <Text>{edu.marks.mark} {edu.marks.unit === 'percentage' ? '%' : edu.marks.unit.toUpperCase()} </Text>
+                                            <Text>2020-2024</Text>
+                                        </Box>
+
+
+
+
+                                        <Box>
+                                            <Button
+                                                onClick={onEditOpen}
+                                                variant={'outline'}
+                                                size={buttonSize}
+                                                leftIcon={<Edit2 size={'15px'} />}
+                                                colorScheme='blue'>
+                                                Edit
+                                            </Button>
+                                        </Box>
+                                        <EditModal education={edu} isOpen={isEditOpen} onClose={onEditClose} />
+
+
                                     </Box>
 
-                                    <Box>
-                                        <Button
-                                            onClick={onEditOpen}
-                                            variant={'outline'}
-                                            size={buttonSize}
-                                            leftIcon={<Edit2 size={'15px'} />}
-                                            colorScheme='blue'>
-                                            Edit
-                                        </Button>
-                                    </Box>
-                                    <EditModal education={education} isOpen={isEditOpen} onClose={onEditClose} />
 
 
-                                </Box>
-
-
-
-                            </Stack>
-
+                                </Stack>
+                            ))}
                             <>
 
 
@@ -250,21 +271,31 @@ const ResumePage = () => {
                                         <ModalBody pb={6}>
                                             <FormControl mb={4}>
                                                 <FormLabel>Education</FormLabel>
-                                                <Select icon={<ArrowDownSquare />} >
+                                                <Select icon={<ArrowDownSquare />} onChange={(e) => setEducationDetails({ ...educationDetails, educationType: e.target.value })} value={educationDetails.educationType} >
                                                     <option value="secondary">Secondary</option>
-                                                    <option value="higher_secondary">Higher Secondary</option>
+                                                    <option value="higher secondary">Higher Secondary</option>
                                                     <option value="graduation">Graduation</option>
-                                                    <option value="post_graduation">Post Graduation</option>
+                                                    <option value="post graduation">Post Graduation</option>
                                                 </Select>
                                             </FormControl>
                                             <FormControl>
                                                 <FormLabel>School/College name</FormLabel>
-                                                <Input placeholder='School/College name' />
+                                                <Input placeholder='School/College name' onChange={(e) => setEducationDetails({ ...educationDetails, school: e.target.value })} value={educationDetails.school} />
+                                            </FormControl>
+
+                                            <FormControl>
+                                                <FormLabel>Start Year</FormLabel>
+                                                <Input placeholder='Start year' onChange={(e) => setEducationDetails({ ...educationDetails, year: { ...educationDetails.year, start: e.target.value } })} value={educationDetails.year.end} />
+                                            </FormControl>
+
+                                            <FormControl>
+                                                <FormLabel>Passout Year</FormLabel>
+                                                <Input placeholder='Passout year' onChange={(e) => setEducationDetails({ ...educationDetails, passout: { ...educationDetails.year, end: e.target.value } })} value={educationDetails.year.end} />
                                             </FormControl>
 
                                             <FormControl mt={4}>
                                                 <FormLabel>Location</FormLabel>
-                                                <Input placeholder='Location' />
+                                                <Input placeholder='Location' onChange={(e) => setEducationDetails({ ...educationDetails, location: e.target.value })} value={educationDetails.location} />
                                             </FormControl>
                                             <FormControl mt={4}>
                                                 <FormLabel>Stream</FormLabel>
@@ -272,11 +303,11 @@ const ResumePage = () => {
                                             </FormControl>
                                             <FormControl mt={4}>
                                                 <FormLabel>Marks</FormLabel>
-                                                <Input placeholder='8.9 or 80%' />
+                                                <Input placeholder='8.9 or 80%' onChange={(e) => setEducationDetails({ ...educationDetails, marks: { ...educationDetails.marks, mark: e.target.value } })} value={educationDetails.marks.mark} />
                                             </FormControl>
                                             <FormControl mt={4}>
                                                 <FormLabel>Marks Unit</FormLabel>
-                                                <Select icon={<ArrowDownSquare />} >
+                                                <Select icon={<ArrowDownSquare />} onChange={(e) => setEducationDetails({ ...educationDetails, marks: { ...educationDetails.marks, unit: e.target.value } })} value={educationDetails.marks.unit} >
                                                     <option value="cgpa">CGPA</option>
                                                     <option value="sgpa">SGPA</option>
                                                     <option value="percentage">Percentage</option>
@@ -286,10 +317,12 @@ const ResumePage = () => {
                                         </ModalBody>
 
                                         <ModalFooter>
-                                            <Button colorScheme='blue' mr={3}>
+                                            <Button colorScheme='blue' mr={3}
+                                                onClick={handleAddNewEducation}
+                                            >
                                                 Save
                                             </Button>
-                                            <Button onClick={onClose}>Cancel</Button>
+                                            <Button ref={cancelBtn} onClick={onClose}>Cancel</Button>
                                         </ModalFooter>
                                     </ModalContent>
                                 </Modal>

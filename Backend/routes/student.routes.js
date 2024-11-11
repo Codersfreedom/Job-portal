@@ -39,7 +39,7 @@ router.put("/internship/apply/:id", protectStudent, applyInternship);
 
 // router.post("/profile/update",protectStudent,updateProfile);
 
-router.post("/education/addNew",addNewEducation);
+router.post("/education/addNew",protectStudent,addNewEducation);
 
 router.get("/resume",protectStudent,getResume);
 

@@ -54,21 +54,19 @@ export const getResume = async (req, res) => {
 
 export const addNewEducation = async (req, res) => {
   try {
-    const { data } = req.body;
-    if (!type) {
-      return res
-        .status(400)
-        .json({ status: false, message: "Please provide all fields" });
-    }
+    const { educationDetails } = req.body;
+    
+
     const resume = await Resume.findOneAndUpdate(
       { userId: req.user._id },
       {
-        $push: {
-          ...data,
-        },
-      }
+        $push: { education: { ...educationDetails } },
+      },
+      { new: true }
     );
-    res.status(201).json({ status: true, message: "Educataion details added",resume });
+    res
+      .status(201)
+      .json({ status: true, message: "Educataion details added", resume });
   } catch (error) {
     console.log(error);
     res.status(500).json({ status: false, message: "Internal server error" });

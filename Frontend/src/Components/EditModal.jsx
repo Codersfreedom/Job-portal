@@ -3,7 +3,7 @@ import { Button, FormControl, FormLabel, Input, Modal, ModalBody, ModalCloseButt
 
 const EditModal = ({ isOpen, onClose, education }) => {
 
-
+console.log(education)
     return (
         <Modal
 
@@ -28,11 +28,11 @@ const EditModal = ({ isOpen, onClose, education }) => {
                     </FormControl>
                     <FormControl mt={4}>
                         <FormLabel>Degree</FormLabel>
-                        <Input value={education.degree} />
+                        <Input value={education.year?.end} />
                     </FormControl>
                     <FormControl mt={4}>
                         <FormLabel>Stream</FormLabel>
-                        <Input value={education.stream} />
+                        <Input value={education.stream.toUpperCase()} />
                     </FormControl>
                     <FormControl mt={4}>
                         <FormLabel>Marks</FormLabel>
@@ -40,7 +40,7 @@ const EditModal = ({ isOpen, onClose, education }) => {
                     </FormControl>
                     <FormControl mt={4}>
                         <FormLabel mt={4}>Unit</FormLabel>
-                        <Select>
+                        <Select defaultValue={education.marks.unit}>
                             <option value="cgpa">CGPA</option>
                             <option value="sgpa">SGPA</option>
                             <option value="percentage">Percentage</option>

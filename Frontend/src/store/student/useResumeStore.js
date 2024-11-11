@@ -47,6 +47,30 @@ const useResumeStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+  addEducation: async (educationDetails) => {
+    console.log(educationDetails);
+    set({ isLoading: true });
+    try {
+      const response = await fetch("/api/student/education/addNew", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({educationDetails}),
+      });
+      const data = await response.json();
+
+      if (data.status) {
+        set({ resume: data.resume });
+      } else {
+        throw new Error(data.message);
+      }
+    } catch (error) {
+      console.log(error.message);
+    } finally {
+      set({ isLoading: false });
+    }
+  },
 }));
 
 export default useResumeStore;
