@@ -5,8 +5,8 @@ const resumeSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Student",
   },
-  image:{
-    type:String,
+  image: {
+    type: String,
   },
   full_name: {
     type: String,
@@ -21,115 +21,10 @@ const resumeSchema = mongoose.Schema({
   batch: {
     type: Number,
   },
-  education: [
-    {
-      secondary: {
-        school: {
-          type: String,
-        },
-        location: {
-          type: String,
-        },
-        year: {
-          type: Number,
-        },
-        marks: {
-          mark: {
-            type: Number,
-          },
-          unit: {
-            type: String,
-          },
-        },
-      },
-      higher: {
-        school: {
-          type: String,
-        },
-        location: {
-          type: String,
-        },
-        year: {
-          type: Number,
-        },
-        marks: {
-          mark: {
-            type: Number,
-          },
-          unit: {
-            type: String,
-          },
-        },
-      },
-      graduation: {
-        college: {
-          type: String,
-        },
-        university: {
-          type: String,
-        },
-        batch: {
-          start: {
-            type: Number,
-          },
-          end: {
-            type: Number,
-          },
-        },
-        location: {
-          type: String,
-        },
-        degree: {
-          type: String,
-        },
-        stream: {
-          type: String,
-        },
-        marks: {
-          mark: {
-            type: Number,
-          },
-          unit: {
-            type: String,
-          },
-        },
-      },
-      post_graduation: {
-        college: {
-          type: String,
-        },
-        university: {
-          type: String,
-        },
-        batch: {
-          start: {
-            type: Number,
-          },
-          end: {
-            type: Number,
-          },
-        },
-        location: {
-          type: String,
-        },
-        degree: {
-          type: String,
-        },
-        stream: {
-          type: String,
-        },
-        marks: {
-          mark: {
-            type: Number,
-          },
-          unit: {
-            type: String,
-          },
-        },
-      },
-    },
-  ],
-
+  education: {
+    type: Array,
+    default: [],
+  },
   projects: [
     {
       name: {
@@ -167,7 +62,6 @@ const resumeSchema = mongoose.Schema({
       },
       details: {
         type: String,
-        
       },
       links: {
         github: {

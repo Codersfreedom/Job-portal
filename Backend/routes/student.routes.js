@@ -18,7 +18,7 @@ import {
   getAllInternships,
   getInternship,
 } from "../controller/student/internshipController.js";
-import { getResume, updateProfile } from "../controller/student/resumeController.js";
+import { addNewEducation, getResume, updateProfile } from "../controller/student/resumeController.js";
 
 const router = express.Router();
 
@@ -39,7 +39,8 @@ router.put("/internship/apply/:id", protectStudent, applyInternship);
 
 // router.post("/profile/update",protectStudent,updateProfile);
 
-router.put("/resume/profile",protectStudent,updateProfile);
+router.post("/education/addNew",addNewEducation);
+
 router.get("/resume",protectStudent,getResume);
 
 export default router;
