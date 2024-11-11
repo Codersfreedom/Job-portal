@@ -1,13 +1,15 @@
+import { ArrowDownSquare, ArrowRight, Bird, Book, Download, Edit2, Link, PackagePlusIcon, Plus, Save, Trash } from 'lucide-react'
+import { Avatar, Box, Button, Flex, FormControl, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Tag, TagCloseButton, TagLabel, Text, Textarea, useBreakpointValue, useColorMode, useDisclosure } from '@chakra-ui/react'
+import toast from 'react-hot-toast'
 import { useEffect, useRef, useState } from 'react'
+
 import Header from '../../Components/Header'
 import LeftSideBar from '../../Components/LeftSideBar'
-import { Avatar, Box, Button, Flex, FormControl, FormLabel, Icon, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Select, Stack, Tag, TagCloseButton, TagLabel, Text, Textarea, useBreakpointValue, useColorMode, useDisclosure } from '@chakra-ui/react'
-import { ArrowDownSquare, ArrowRight, Bird, Book, Camera, Download, Edit2, Link, PackagePlusIcon, Plus, Save, Trash } from 'lucide-react'
-import './Resume.css';
-import toast from 'react-hot-toast'
 import EditModal from '../../Components/EditModal'
 import useResumeStore from '../../store/student/useResumeStore'
 import Spinner from '../../Components/LoadingSpinner'
+import './Resume.css';
+
 const ResumePage = () => {
     const { colorMode } = useColorMode()
     const buttonSize = useBreakpointValue(['sm', 'md'])
@@ -19,7 +21,7 @@ const ResumePage = () => {
     const { isOpen: isNewCertificate, onOpen: onNewCertificateOpen, onClose: onNewCertificateClose } = useDisclosure()
 
     const [menu, setMenu] = useState('education');
-    const [isInputDisabled, setIsInputDisabled] = useState(true);
+    const [image, setImage] = useState(null);
     const { resume, updateProfile, getResume, isLoading } = useResumeStore()
 
     useEffect(() => {
@@ -27,15 +29,10 @@ const ResumePage = () => {
     }, []);
 
 
-    const [profileData, setProfileData] = useState({
-        full_name: resume && resume.full_name,
-        domain: resume && resume.domain,
-        institute: resume && resume.institute,
-        batch: resume && resume.batch,
-        image: null
-    });
+
 
     console.log(resume)
+
 
 
 
@@ -58,16 +55,6 @@ const ResumePage = () => {
     const imageInputRef = useRef();
 
 
-
-
-
-
-
-
-
-
-
-
     const handleSelectImage = (e) => {
 
         const maxSize = 2 * 1024 * 1024;
@@ -84,12 +71,12 @@ const ResumePage = () => {
 
             fileReader.onloadend = () => {
 
-                setProfileData({ ...profileData, image: fileReader.result });
+                setImage(fileReader.result)
             }
 
             fileReader.readAsDataURL(file);
         } else {
-            setProfileData({ ...profileData, image: null });
+            setImage(null);
             return toast.error("Please select a valid image file")
         }
     }
@@ -98,103 +85,58 @@ const ResumePage = () => {
 
         //    TODO:Save data in database
 
-        updateProfile(profileData);
-        if (!isLoading) {
-            setIsInputDisabled(true);
 
-        }
 
     }
 
-    if(isLoading) return<Spinner />;
-   
+    if (isLoading) return <Spinner />;
+
     return (
         <Box className='grid-layout'>
             <Header />
             <LeftSideBar />
             <Stack className='main p-5 md:p-10 max-w-screen-xl'>
-                <Box className={` flex flex-col md:flex-row items-center gap-10 w-full mt-10 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'}  p-10 rounded-lg`}>
+                <Box className={` flex flex-col md:flex-row items-center  gap-10 w-full mt-10 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'}  p-10 rounded-lg`}>
                     <Box className='relative '>
-                        <Avatar onClick={() => imageInputRef.current.click()} name='Rakesh Manna' src={ profileData.image ? profileData.image:resume?.image } size={'xl'} className='avatar' />
+                        <Avatar onClick={() => imageInputRef.current.click()} name='Rakesh Manna' src={image ? image : resume?.image} size={'xl'} className='avatar' />
                         <input type="file" onChange={handleSelectImage} className='hidden' ref={imageInputRef} />
 
                     </Box>
-                    <Box className='text-center md:text-start '>
+                    <Box className='text-center md:text-start w-full'>
 
 
-                        <Box>
 
 
-                            <Input
-                                fontSize={'2xl'}
-                                textAlign={textAlign}
-                                fontWeight={'extrabold'}
-                                name='full_name'
-                                onChange={(e) => setProfileData({ ...profileData, full_name: e.target.value })}
-                                value={profileData.full_name || resume?.full_name}
-                                variant={'flushed'}
-                                disabled={isInputDisabled}
-                                _disabled={'#fff'}
-                                border={isInputDisabled && 'none'} />
 
-                            <Input
-                                fontSize={'xl'}
-                                name='domain'
-                                value={profileData.domain || resume?.domain}
-                                textAlign={textAlign}
-                                fontWeight={'bold'}
-                                onChange={(e) => setProfileData({ ...profileData, domain: e.target.value })}
-                                variant={'flushed'}
-                                disabled={isInputDisabled}
-                                _disabled={'#fff'}
-                                border={isInputDisabled && 'none'} />
+                        <Text
+                            fontSize={'2xl'}
+                            textAlign={textAlign}
+                            fontWeight={'extrabold'}
+                        >{resume?.full_name}</Text>
 
-                            <Input
-                                fontSize={'xl'}
-                                name='institute'
-                                value={profileData.institute ||resume?.institute}
-                                fontWeight={'semibold'}
-                                onChange={(e) => setProfileData({ ...profileData, institute: e.target.value })}
-                                variant={'flushed'}
-                                disabled={isInputDisabled}
-                                _disabled={'#fff'}
-                                border={isInputDisabled && 'none'} />
+                        <Text
+                            fontSize={'xl'}
+                            textAlign={textAlign}
+                            fontWeight={'bold'}
+                        >{resume?.domain}</Text>
 
-                            <Input fontWeight={'medium'}
-                                name='batch'
-                                onChange={(e) => setProfileData({ ...profileData, batch: e.target.value })}
-                                textAlign={textAlign}
-                                value={profileData?.batch || resume?.batch}
-                                variant={'flushed'}
-                                disabled={isInputDisabled}
-                                _disabled={'#fff'}
-                                border={isInputDisabled && 'none'} />
+                        <Text
+                            fontSize={'xl'}
+                            textAlign={textAlign}
+                            fontWeight={'semibold'}
+                        >{resume?.institute}</Text>
 
-                        </Box>
+                        <Text
+                            fontWeight={'medium'}
+                            textAlign={textAlign}
+                        >{resume?.batch}</Text>
+
+
 
 
 
                     </Box>
-                    <Box className='flex flex-col md:flex-row gap-5'>
-                        {
-                            isInputDisabled ? <Button
-                                type='button'
-                                onClick={(e) => { e.preventDefault(); setIsInputDisabled(!isInputDisabled) }}
-                                size={buttonSize}
-                                rightIcon={<Edit2 size={'18px'} />}
-                                colorScheme='blue'>Edit</Button> :
-
-                                <Button
-                                    onClick={handleSaveProfile}
-                                    isLoading={isLoading}
-                                    size={buttonSize}
-                                    rightIcon={<Save size={'18px'} />}
-                                    colorScheme='blue'>Save
-                                </Button>
-
-
-
-                        }
+                    <Box className='flex flex-col md:flex-row gap-5 float-right'>
 
                         <Button size={buttonSize} rightIcon={<Download />} colorScheme='blue'>Download Resume</Button>
                     </Box>
@@ -394,7 +336,7 @@ const ResumePage = () => {
                             <Stack className={`w-full mt-5 py-5 ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} rounded-lg`}>
 
 
-                                <Box className='flex justify-between px-3 '>
+                                <Box className='flex justify-between px-5 '>
 
 
                                     <Box className='flex flex-col  '>
@@ -590,7 +532,7 @@ const ResumePage = () => {
                                 <Stack className='w-4/6 border-r-2' >
 
 
-                                    <Box className='flex justify-between px-3   '>
+                                    <Box className='flex justify-between px-5   '>
 
 
                                         <Stack >
@@ -696,8 +638,8 @@ const ResumePage = () => {
                                 </Box>
 
 
-                                <Stack gap={2} className={`w-full rounded-md border-1  ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} p-2`}>
-                                    <Box className='flex justify-between'>
+                                <Stack gap={2} className={`w-full rounded-md border-1 px-5  ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} p-2`}>
+                                    <Box className='flex justify-between '>
                                         <Text>Goldman Sachs virtual internship</Text>
                                         <Button
                                             colorScheme='blue'
@@ -806,7 +748,7 @@ const ResumePage = () => {
 
                                 </Box>
 
-                                <Stack gap={2} className={`w-full rounded-md border-1  ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} p-2`}>
+                                <Stack gap={2} className={`w-full rounded-md border-1 px-5  ${colorMode === 'light' ? 'bg-slate-200' : 'bg-slate-600'} p-2`}>
                                     <Box className='flex justify-between'>
                                         <Text>Goldman Sachs virtual internship</Text>
                                         <Button

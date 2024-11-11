@@ -43,7 +43,7 @@ function App() {
         <Route path='/post-job' element={company ? <PostJob /> : <Navigate to={'/auth'} />} />
 
         <Route path='/job/:id' element={<JobDetails />} />
-        <Route path='/internships' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
+        <Route path='/internships' element={ <InternshipPage /> } />
         <Route path='/internship/:id' element={student ? <InternshipPage /> : <Navigate to={'/auth'} />} />
         <Route path='/applied' element={student ? <AppliedPage /> : <Navigate to={'/auth'} />} />
         <Route path='/profile' element={(student || company) ? <ProfilePage /> : <Navigate to={'/auth'} />} />

@@ -29,12 +29,13 @@ const useResumeStore = create((set) => ({
     }
   },
   getResume: async () => {
-    set({isLoading:true})
+    set({ isLoading: true });
     try {
       const response = await fetch("/api/student/resume", {
         method: "GET",
       });
       const data = await response.json();
+      console.log(data);
       if (data.status) {
         set({ resume: data.resume });
       } else {
